@@ -1,0 +1,23 @@
+from django.db import models
+
+
+
+
+class AuctionItem(models.Model):
+    description = models.CharField(max_length=50)
+    date_received = models.DateField()
+    retail_value = models.DecimalField(decimal_places=2, max_digits=30)
+    selling_price = models.DecimalField(decimal_places=2, max_digits=30)
+    starting_value = models.DecimalField(decimal_places=2, max_digits=30)
+    increment_amount = models.DecimalField(decimal_places=2, max_digits=30)
+    winning_bid_number = models.ForeignKey('BidNumber', default=None, related_name='items_won', blank=True, null=False)
+    invoice_id = models.OneToOneField('Invoice', default=None, related_name='item')
+
+    class Meta:
+        verbose_name_plural = "auction items"
+        app_label = 'manager'
+
+
+
+
+

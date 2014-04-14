@@ -36,6 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'manager',
+    'south',
+    'multiselectfield',
+    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,9 +61,12 @@ WSGI_APPLICATION = 'auctionmanageronline.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'auctionmanager',
+        'USER': 'amo',
+        'PASSWORD': 'amo',
+        'HOST': 'localhost',
+        }
 }
 
 # Internationalization

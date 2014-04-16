@@ -1,5 +1,6 @@
 from django.db import models
 from multiselectfield import MultiSelectField
+import datetime
 
 
 PAYMENT_CHOICES = ((1, 'cash'),
@@ -13,7 +14,9 @@ class Invoice(models.Model):
     total_amount = models.DecimalField(decimal_places=2, max_digits=30)
     invoice_date = models.DateField()
     paid = models.BooleanField(default=False)
-    payment_type = MultiSelectField(choices=PAYMENT_CHOICES)
+    payment_type = models.CharField(max_length=3, choices=PAYMENT_CHOICES)
+    year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
+
 
     class Meta:
         verbose_name_plural = "invoices"

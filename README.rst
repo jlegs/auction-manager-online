@@ -9,6 +9,7 @@ pip install MySQL-python
 pip install South
 pip install django-multiselectfield
 pip install django-extensions
+pip install werkzeug
 
 
 create database auctionmanager;

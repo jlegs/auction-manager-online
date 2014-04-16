@@ -3,11 +3,18 @@
 
 
 {% block content %}
-
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    First Name: {{ form.first_name }}<br/>
+    Last Name: {{ form.last_name }}<br/>
+    Table Assignment: {{ form.table_assignment }}<br/>
+    Phone: {{ form.phone }}<br/>
+    Email: {{ form.email }}<br/>
+    <label for="id_bid_number">Bid Number:</label><input id="id_bid_number" name="bid_number" type="number" value="{{ bid_number }}"/><br/>
     <input type="submit" value="Save New Attendee">
 </form>
+
+
+
 
 {% endblock %}

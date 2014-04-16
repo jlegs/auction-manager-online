@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ attendees }}
+<table border="1px solid">
+    <tr>
+        <th>Record Id</th>
+        <th>Name</th>
+        <th>Table Assignment</th>
+        <th>Bid Number</th>
+    </tr>
+{% for attendee in attendees %}
+    <tr>
+        <td>{{ attendee.id }}</td>
+        <td>
+            <a href="{% url 'update_attendee' attendee.id %}">{{ attendee.first_name }} {{ attendee.last_name }}</a><br/>
+        </td>
+        <td>
+            {{ attendee.table_assignment }}
+        </td>
+        <td>
+            {{ attendee.bid_number }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
 {% endblock %}

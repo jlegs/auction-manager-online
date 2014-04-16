@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{% url 'update_attendee' attendee.id %}" method="get">
+<form action="" method="post">
     {% csrf_token %}
 
     <table border="1px solid">
@@ -12,27 +12,27 @@
         </tr>
         <tr>
             <th>First Name:</th>
-            <td>{{ attendee.first_name }}</td>
+            <td>{{ form.first_name }}</td>
         </tr>
         <tr>
             <th>Last Name:</th>
-            <td>{{ attendee.last_name }}</td>
+            <td>{{ form.last_name }}</td>
         </tr>
         <tr>
             <th>Table Assignment:</th>
-            <td>{{ attendee.table_assignment }}</td>
+            <td>{{ form.table_assignment }}</td>
         </tr>
         <tr>
             <th>Bid Number:</th>
-            <td>{{ attendee.bid_number }}</td>
+            <td>{{ form.bid_number }}</td>
         </tr>
         <tr>
             <th>Phone:</th>
-            <td>{{ attendee.phone }}</td>
+            <td>{{ form.phone }}</td>
         </tr>
         <tr>
             <th>Email:</th>
-            <td>{{ attendee.email }}</td>
+            <td>{{ form.email }}</td>
         </tr>
     </table>
 

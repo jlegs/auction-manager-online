@@ -14,6 +14,8 @@
             <a href="{% url 'home' %}">Home</a><br/>
             <a href="{% url 'attendee_list' %}">View Attendee List</a><br/>
             <a href="{% url 'add_attendee' %}">Add Attendee</a><br/>
+            <a href="{% url 'item_list' %}">View Item List</a><br/>
+            <a href="{% url 'add_item' %}">Add Auction Item</a><br/>
                     <form id="logout_form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <input type="submit" value="log out" />

@@ -17,10 +17,13 @@ def create(request):
         if form.is_valid():
             item = form.save()
             return redirect('item_list')
+        else:
+            context = {'form': form}
+#            return redirect('add_item')
+            return render(request, 'auction_item/add.html', context)
     else:
         form = AuctionItemForm()
         context = {'form': form,
-                   'bid_number': bid_number,
                    }
         return render(request, 'auction_item/add.html', context)
     return redirect('item_list')
@@ -51,13 +54,8 @@ def update(request, id):
 def info(request, id):
     ''' Unimplemented
     '''
-    form = AuctionItemForm(request.POST)
-    print form
-    if form.is_valid():
-        form.save()
-        return redirect('item_info', id)
-    else:
-        return redirect('item_info', id)
+    item = AuctionItem.objects.get(id=id)
+    return render(request, 'auction_item/info.html', {'item': item})
 
 
 def list(request):

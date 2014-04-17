@@ -58,13 +58,8 @@ def update(request, id):
 def info(request, id):
     ''' Unimplemented
     '''
-    form = AttendeeForm(request.POST)
-    print form
-    if form.is_valid():
-        form.save()
-        return redirect('attendee_info', id)
-    else:
-        return redirect('attendee_info', id)
+    attendee = Attendee.objects.get(id=id)
+    return render(request, 'info.html', {'attendee': attendee})
 
 
 def list(request):

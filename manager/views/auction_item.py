@@ -7,6 +7,7 @@ from manager.models.auction_item import AuctionItem
 from manager.forms import AuctionItemForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 
 def create(request):
@@ -16,6 +17,7 @@ def create(request):
         form = AuctionItemForm(request.POST)
         if form.is_valid():
             item = form.save()
+            messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
             return redirect('item_list')
         else:
             context = {'form': form}
@@ -38,6 +40,7 @@ def update(request, id):
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
             return redirect('item_list')
         else:
             return redirect('item_info', id)

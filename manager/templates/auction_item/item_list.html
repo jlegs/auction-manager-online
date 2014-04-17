@@ -18,7 +18,7 @@
 
     <tr>
         <td>{{ item.id }}</td>
-        <td><a href="{% url 'item_info' item.id %}">{{ item.description }} (info)</a></td>
+        <td><a href="{% url 'item_info' item.id %}">{% if item.description %}{{ item.description }}{% else %}No Description{% endif %}</a></td>
         <td>{{ item.winning_bid_number }}</td>
         <td>{{ item.invoice }}</td>
         <td>${{ item.retail_value }}</td>

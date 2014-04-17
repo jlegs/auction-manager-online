@@ -12,7 +12,7 @@
     <tr>
         <td>{{ attendee.id }}</td>
         <td>
-            <a href="{% url 'update_attendee' attendee.id %}">{{ attendee.first_name }} {{ attendee.last_name }}</a><br/>
+            <a href="{% url 'attendee_info' attendee.id %}">{{ attendee.first_name }} {{ attendee.last_name }}</a><br/>
         </td>
         <td>
             {{ attendee.table_assignment }}

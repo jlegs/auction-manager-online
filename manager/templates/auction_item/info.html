@@ -11,9 +11,13 @@
 Item ID: {{ item.id }}<br/>
 Description: {{ item.description }}<br/>
 Winning Bidder: {{ item.winning_bid_number }}<br/>
-Inovoice: {{ item.invoice }}<br/>
-
-
+Invoice: {{ item.invoice }}<br/>
+Retail Value: ${{ item.retail_value }}<br/>
+Selling Price: ${{ item.selling_price }}<br/>
+Starting Value: ${{ item.starting_value }}<br/>
+Increment Amount: ${{ item.increment_amount }}<br/>
+<br/>
+<a href="{% url 'update_item' item.id%}"><button type="button">Update Item</button></a>
 
 
 {% endblock %}

@@ -27,7 +27,12 @@
     </div>
 
 
-
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags %}{% endif %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
 <br/>
 
     {% block content %}{% endblock %}

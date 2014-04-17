@@ -7,6 +7,7 @@ from manager.models.auction_item import AuctionItem
 from manager.forms import AttendeeForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 
 def create(request):
@@ -16,6 +17,7 @@ def create(request):
         form = AttendeeForm(request.POST)
         if form.is_valid():
             attendee = form.save()
+            messages.add_message(request, messages.SUCCESS, 'New Attendee Added')
             return redirect('attendee_list')
     else:
         form = AttendeeForm()
@@ -42,6 +44,7 @@ def update(request, id):
         form = AttendeeForm(request.POST, instance=attendee)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Attendee Information updated for %s' % (attendee.first_name + " " + attendee.last_name))
             return redirect('attendee_list')
         else:
             return redirect('attendee_info', id)

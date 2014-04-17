@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    <table border="1px solid">
+        <tr>
+            <th>Record ID:</th>
+            <td>{{ item.id }}</td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>{{ form.description }}</td>
+        </tr>
+        <tr>
+            <th>Date Received:</th>
+            <td>{{ form.date_received }}</td>
+        </tr>
+        <tr>
+            <th>Retail Value:</th>
+            <td>{{ form.retail_value }}</td>
+        </tr>
+        <tr>
+            <th>Selling Price:</th>
+            <td>{{ form.selling_price }}</td>
+        </tr>
+        <tr>
+            <th>Starting Value:</th>
+            <td>{{ form.starting_value }}</td>
+        </tr>
+        <tr>
+            <th>Increment Amount:</th>
+            <td>{{ form.increment_amount }}</td>
+        </tr>
+        <tr>
+            <th>Winning Bid Number:</th>
+            <td>{{ form.winning_bid_number }}</td>
+        </tr>
+        <tr>
+            <th>Invoice:</th>
+            <td>{{ form.invoice }}</td>
+        </tr>
+    </table>
+
+    <input type="hidden" value="{{ attendee }}" name="attendee"/>
+    <input type="submit" value="Update Attendee" name="update_attendee"/>
+</form>
+
+
+
+
+{% if error %}
+
+No Attendee information found for attendee with ID {{ id }}
+
+{% endif %}
+
+
+{% endblock %}

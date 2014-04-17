@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<table border="1px solid">
+    <tr>
+        <th>Record Id</th>
+        <th>Item Description</th>
+        <th>Winnning Bid Number</th>
+        <th>Invoice</th>
+        <th>Retail Price</th>
+        <th>Selling Price</th>
+        <th>Starting Value</th>
+        <th>Increment Amount</th>
+    </tr>
+
+    {% for item in auction_items %}
+
+    <tr>
+        <td>{{ item.id }}</td>
+        <td><a href="{% url 'item_info' item.id %}">{{ item.description }} (info)</a></td>
+        <td>{{ item.winning_bid_number }}</td>
+        <td>{{ item.invoice }}</td>
+        <td>${{ item.retail_value }}</td>
+        <td>${{ item.selling_price }}</td>
+        <td>${{ item.starting_value }}</td>
+        <td>${{ item.increment_amount }}</td>
+        <td><a href="{% url 'update_item' item.id %}"><button type="button">Update Item</button></a></td>
+        <td><a href="{% url 'item_info' item.id %}"><button type="button">Detailed Item Info</button></a></td>
+        <td><a href="{% url 'delete_item' item.id %}"><button type="button">Delete Item</button></a></td>
+    </tr>
+{% endfor %}
+
+
+</table>
+
+
+{% endblock %}

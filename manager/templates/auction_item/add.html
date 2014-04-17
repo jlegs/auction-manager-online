@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    Description: {{ form.description }}<br/>
+    ** Make sure your date is in the format of YYYY-MM-DD **<br/>
+    Date Received: {{ form.date_received }}<br/>
+    Starting Value: {{ form.starting_value }}<br/>
+    Increment Amount: {{ form.increment_amount }}<br/>
+    Selling Price: {{ form.selling_price }}<br/>
+    Retail Value: {{ form.retail_value }}<br/>
+    Invoice for Item: {{ form.invoice }}<br/>
+    Winning Bidder: {{ form.winning_bid_number }}<br/>
+    <input type="submit" value="Save New Auction Item">
+</form>
+
+{% endblock %}

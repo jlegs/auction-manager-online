@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<table border="1px solid">
+<table border="1px solid" class="centered_list">
     <tr>
         <th>Record Id</th>
         <th>Name</th>
@@ -22,9 +22,6 @@
         </td>
         <td>
             <a href="{% url 'update_attendee' attendee.id %}"><button type="button">Update Attende</button></a>
-        </td>
-        <td>
-            <a href="{% url 'attendee_info' attendee.id %}"><button type="button">Detailed Attendee Info</button></a>
         </td>
         <td>
             <a href="{% url 'delete_attendee' attendee.id %}"><button type="button">delete</button></a>

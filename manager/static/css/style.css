@@ -1,0 +1,11 @@
+#django_messages {
+	background-color: #FF8533;
+	text-align: center;
+}
+
+
+.centered_list {
+	margin: 0 auto;
+	padding: 2px;
+	text-align: center;
+}

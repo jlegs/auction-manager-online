@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    <table border="1px solid">
+        <tr>
+            <th>Record ID</th>
+            <td>{{ invoice.id }}</td>
+        </tr>
+        <tr>
+            <th>Paid For By</th>
+            <td>{{ form.paid_for_by}}</td>
+        </tr>
+        <tr>
+            <th>Total Invoice Amount</th>
+            <td>{{ form.total_amount}}</td>
+        </tr>
+        <tr>
+            <th>Invoice Date</th>
+            <td>{{ form.invoice_date }}</td>
+        </tr>
+        <tr>
+            <th>Paid?</th>
+            <td>{{ form.paid }}</td>
+        </tr>
+        <tr>
+            <th>Payment Type</th>
+            <td>{{ form.payment_type }}</td>
+        </tr>
+    </table>
+
+    <input type="hidden" value="{{ invoice }}" name="invoice"/>
+    <input type="submit" value="Update Invoice" name="update_invoice"/>
+</form>
+
+
+
+
+{% if error %}
+
+No Attendee information found for attendee with ID {{ id }}
+
+{% endif %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

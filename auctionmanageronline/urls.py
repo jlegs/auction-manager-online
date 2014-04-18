@@ -23,6 +23,15 @@ urlpatterns = patterns('',
     url('^item/all$', 'manager.views.auction_item.list', name='item_list'),
     url('^item/delete/(\d+)$', 'manager.views.auction_item.delete', name='delete_item'),
 
+    url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
+    url('^invoice/(\d+)$', 'manager.views.invoice.info', name='invoice_info'),
+    url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
+    url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
+    url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
+
+
+
+
 
     url(r'^admin/', include(admin.site.urls)),
 )

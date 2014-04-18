@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    Paid for by: {{ form.paid_for_by }}<br/>
+    Total: {{ form.total_amount }}<br/>
+    Invoice Date: {{ form.invoice_date }}<br/>
+    Paid: {{ form.paid }}<br/>
+    Payment type: {{ form.payment_type }}<br/>
+
+    <input type="submit" value="Save New Invoice">
+</form>
+
+
+
+
+{% endblock %}

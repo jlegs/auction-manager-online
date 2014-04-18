@@ -12,10 +12,30 @@
         <center>
             {% if user.is_authenticated %}
             <a href="{% url 'home' %}">Home</a><br/>
-            <a href="{% url 'attendee_list' %}">View Attendee List</a><br/>
-            <a href="{% url 'add_attendee' %}">Add Attendee</a><br/>
-            <a href="{% url 'item_list' %}">View Item List</a><br/>
-            <a href="{% url 'add_item' %}">Add Auction Item</a><br/>
+            <table class="centered_list">
+                <tr>
+                    <td>
+                        <a href="{% url 'attendee_list' %}">View Attendee List</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'item_list' %}">View Item List</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'invoice_list' %}">View Invoice List</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="{% url 'add_attendee' %}">Add Attendee</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'add_item' %}">Add Auction Item</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'add_invoice' %}">Add Invoice</a>
+                    </td>
+                </tr>
+            </table>
                     <form id="logout_form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <input type="submit" value="log out" />
@@ -28,10 +48,14 @@
 
 
 {% if messages %}
-    {% for message in messages %}
-        {% if message.tags %}{% endif %}
-        {{ message }}
-    {% endfor %}
+    <div id="django_messages">
+        <h3>
+        {% for message in messages %}
+            {% if message.tags %}{% endif %}
+            {{ message }}
+        {% endfor %}
+        </h3>
+    </div>
 {% endif %}
 <br/>
 

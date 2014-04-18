@@ -8,14 +8,73 @@
 {{ form.non_field_errors }}
 {% endif %}
 
-Item ID: {{ item.id }}<br/>
-Description: {{ item.description }}<br/>
-Winning Bidder: {{ item.winning_bid_number }}<br/>
-Invoice: {{ item.invoice }}<br/>
-Retail Value: ${{ item.retail_value }}<br/>
-Selling Price: ${{ item.selling_price }}<br/>
-Starting Value: ${{ item.starting_value }}<br/>
-Increment Amount: ${{ item.increment_amount }}<br/>
+<table border="1px solid">
+    <tr>
+        <td>
+            Item ID
+        </td>
+        <td>
+            {{ item.id }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Description
+        </td>
+        <td>
+            {{ item.description }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Winning Bidder
+        </td>
+        <td>
+            {% if item.winning_bid_number %}{{ item.winning_bid_number }}{% else %}No Info{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Invoice
+        </td>
+        <td>
+            {% if item.invoice %}{{ item.invoice }}{% else %}No Invoice Associated Yet{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Retail Value
+        </td>
+        <td>
+            {% if item.retail_value %}${{ item.retail_value }}{% else %}No Info{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Selling Price
+        </td>
+        <td>
+            {% if item.selling_price %}${{ item.selling_price }}{% else %}No Info{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Starting Value
+        </td>
+        <td>
+            {% if item.starting_value %}${{ item.starting_value }}{% else %}No Info{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Increment Amount
+        </td>
+        <td>
+            {% if item.increment_amount %}${{ item.increment_amount }}{% else %}No Info{% endif %}
+        </td>
+    </tr>
+
+</table>
 <br/>
 <a href="{% url 'update_item' item.id%}"><button type="button">Update Item</button></a>
 

@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<table border="1px solid">
+<table border="1px solid" class="centered_list">
     <tr>
         <th>Record Id</th>
         <th>Item Description</th>
@@ -21,12 +21,11 @@
         <td><a href="{% url 'item_info' item.id %}">{% if item.description %}{{ item.description }}{% else %}No Description{% endif %}</a></td>
         <td>{{ item.winning_bid_number }}</td>
         <td>{{ item.invoice }}</td>
-        <td>${{ item.retail_value }}</td>
-        <td>${{ item.selling_price }}</td>
-        <td>${{ item.starting_value }}</td>
-        <td>${{ item.increment_amount }}</td>
+        <td>{% if item.retail_value %}${{ item.retail_value }}{% else %}No Info{% endif %}</td>
+        <td>{% if item.selling_price %}${{ item.selling_price }}{% else %}No Info{% endif %}</td>
+        <td>{% if item.starting_value %}${{ item.starting_value }}{% else %}No Info{% endif %}</td>
+        <td>{% if item.increment_amount %}${{ item.increment_amount }}{% else %}No Info{% endif %}</td>
         <td><a href="{% url 'update_item' item.id %}"><button type="button">Update Item</button></a></td>
-        <td><a href="{% url 'item_info' item.id %}"><button type="button">Detailed Item Info</button></a></td>
         <td><a href="{% url 'delete_item' item.id %}"><button type="button">Delete Item</button></a></td>
     </tr>
 {% endfor %}

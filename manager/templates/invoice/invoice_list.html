@@ -3,8 +3,11 @@
 {% block content %}
 <table border="1px solid" class="centered_list">
     <tr>
-        <th>Record Id</th>
+        <th>Invoice ID</th>
         <th>Total Invoice Amount</th>
+        <th>Item Record ID</th>
+        <th>Bill To</th>
+        <th>Paid For By</th>
         <th>Invoice Date</th>
         <th>Paid?</th>
         <th>Payment Type</th>
@@ -15,13 +18,22 @@
             {{ invoice.id }}
         </td>
         <td>
-            <a href="{% url 'invoice_info' invoice.id %}">{{ invoice.total_amount }}</a><br/>
+            <a href="{% url 'invoice_info' invoice.id %}">{{ invoice.total_amount }}</a>
+        </td>
+        <td>
+            {% for item in invoice.items.all %}
+                <a href="{% url 'item_info' item.id %}">{{ item.id }}</a><br/>
+                ({{ item.description }})
+            {% endfor %}
+        </td>
+        <td>
+            {% if invoice.bill_to %}
+            <a href="{% url 'attendee_info' invoice.bill_to.id %}">{{ invoice.bill_to.first_name }} {{ invoice.bill_to.last_name }}</a><br/>
+            (Bidder No. {{ invoice.bill_to.bid_number }})
+            {% endif %}
         </td>
         <td>
             {{ invoice.paid_for_by}}
-        </td>
-        <td>
-            {{ invoice.total_amount}}
         </td>
         <td>
             {{ invoice.invoice_date }}

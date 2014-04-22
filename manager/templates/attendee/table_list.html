@@ -21,10 +21,11 @@
             {{ attendee.bid_number }}
         </td>
         <td>
-            <a href="{% url 'update_attendee' attendee.id %}"><button type="button">Update Attendee</button></a>
-        </td>
-        <td>
-            <a href="{% url 'delete_attendee' attendee.id %}"><button type="button">delete</button></a>
+            <form method="post" action="{% url 'add_attendee' %}">
+                {% csrf_token %}
+                <input type="hidden" name="table_assignment" value="{{ attendee.table_assignment }}"/>
+                <input type="submit" value="Add attendee to table"/>
+            </form>
         </td>
     </tr>
 {% endfor %}

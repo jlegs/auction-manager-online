@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login, logout as django_logout
-from manager.models.attendee import Attendee, BidNumber
+from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
 from manager.forms import AttendeeForm
@@ -19,6 +19,14 @@ def create(request):
             attendee = form.save()
             messages.add_message(request, messages.SUCCESS, 'New Attendee Added')
             return redirect('attendee_list')
+        else:
+            if len(Attendee.objects.filter(year=lambda: datetime.datetime.now().year)) > 0:
+                latest = Attendee.objects.latest('bid_number')
+                bid_number = latest.bid_number + 1
+            context = {'form': form,
+                       'bid_number': bid_number,
+                       'table_assignment': form.cleaned_data['table_assignment']}
+            return render(request, 'attendee/add.html', context)
     else:
         form = AttendeeForm()
         # Check to see if there are attendees for this year's auction. If there are, set the default bid number
@@ -31,7 +39,7 @@ def create(request):
         context = {'form': form,
                    'bid_number': bid_number,
                    }
-        return render(request, 'add.html', context)
+        return render(request, 'attendee/add.html', context)
     return redirect('attendee_list')
 
 
@@ -54,7 +62,7 @@ def update(request, id):
                    'form': form,
                    }
 
-    return render(request, 'update.html', context)
+    return render(request, 'attendee/update.html', context)
 
 
 
@@ -62,7 +70,7 @@ def info(request, id):
     ''' Unimplemented
     '''
     attendee = Attendee.objects.get(id=id)
-    return render(request, 'info.html', {'attendee': attendee})
+    return render(request, 'attendee/info.html', {'attendee': attendee})
 
 
 def list(request):
@@ -71,7 +79,7 @@ def list(request):
     attendees = Attendee.objects.filter(year=lambda: datetime.datetime.now().year)
     context = {'attendees': attendees,
                }
-    return render(request, 'attendee_list.html', context)
+    return render(request, 'attendee/attendee_list.html', context)
 
 def confirm_delete(request, id):
     return redirect('home')
@@ -81,4 +89,12 @@ def delete(request, id):
     attendee = Attendee.objects.get(id=id)
     attendee.delete()
     return redirect('attendee_list')
+
+
+def table_list(request):
+    attendees = Attendee.objects.all().order_by('table_assignment')
+    context = {'attendees': attendees}
+    return render(request, 'attendee/table_list.html', context)
+
+
 

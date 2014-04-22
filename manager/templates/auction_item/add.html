@@ -10,15 +10,14 @@
 
 <form action="" method="post">
     {% csrf_token %}
+    Item Number: [Item Number will be Auto-Generated when you create the item]<br/>
     Description: {{ form.description }}<br/>
     ** Make sure your date is in the format of YYYY-MM-DD **<br/>
     Date Received: {{ form.date_received }}<br/>
     Starting Value: {{ form.starting_value }}<br/>
     Increment Amount: {{ form.increment_amount }}<br/>
-    Selling Price: {{ form.selling_price }}<br/>
     Retail Value: {{ form.retail_value }}<br/>
-    Invoice for Item: {{ form.invoice }}<br/>
-    Winning Bidder: {{ form.winning_bid_number }}<br/>
+    <input id="id_selling_price" name="selling_price" step="0.01" type="hidden" value="0.00" /><br/>
     <input type="submit" value="Save New Auction Item">
 </form>
 

@@ -35,6 +35,23 @@
                         <a href="{% url 'add_invoice' %}">Add Invoice</a>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <a href="{% url 'table_list' %}">View Attendees By Table</a>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <a href="{% url 'table_invoices' %}">View Invoices by Table</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'table_invoices_detail' %}">View Invoice Details by Table</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'table_invoice_detail' %}">View Table's Invoices</a>
+                    </td>
+                </tr>
             </table>
                     <form id="logout_form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}

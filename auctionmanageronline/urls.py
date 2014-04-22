@@ -30,6 +30,11 @@ urlpatterns = patterns('',
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
 
 
+    url('^attendee/table/all$', 'manager.views.attendee.table_list', name='table_list'),
+    url('^invoice/table/list/all$', 'manager.views.invoice.table_list', name='table_invoices'),
+    url('^invoice/table/detail/all$', 'manager.views.invoice.table_invoices_detail', name='table_invoices_detail'),
+    url('^invoice/table/detail/$', 'manager.views.invoice.table_invoice_detail', name='table_invoice_detail'),
+
 
 
 

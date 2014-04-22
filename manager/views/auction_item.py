@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login, logout as django_logout
-from manager.models.auction_item import AuctionItem
 from manager.models.invoice import Invoice
+from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
 from manager.forms import AuctionItemForm
 import datetime
@@ -17,11 +17,14 @@ def create(request):
         form = AuctionItemForm(request.POST)
         if form.is_valid():
             item = form.save()
-            messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+            invoice = Invoice(total_amount=0)
+            invoice.save()
+            invoice.items.add(item)
+            invoice.save()
+            messages.add_message(request, messages.SUCCESS, 'Auction Item created')
             return redirect('item_list')
         else:
             context = {'form': form}
-#            return redirect('add_item')
             return render(request, 'auction_item/add.html', context)
     else:
         form = AuctionItemForm()
@@ -39,8 +42,19 @@ def update(request, id):
     if request.POST:
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+            print form,
+            print form.cleaned_data
+            # Set a list of bid numbers so we can check if the winning bid number entered is valid
+            bid_numbers = [attendee.bid_number for attendee in Attendee.objects.filter(year=datetime.datetime.now().year)]
+            if form.cleaned_data['winning_bid_number'] in bid_numbers:
+                if form.cleaned_data['selling_price']:
+                    invoice = form.cleaned_data['invoice']
+                    invoice.set_total()
+                    invoice.save()
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+            else:
+                messages.add_message(request, messages.WARNING, 'That Bid Number Does Not Exist')
             return redirect('item_list')
         else:
             return redirect('item_info', id)

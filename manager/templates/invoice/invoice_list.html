@@ -27,9 +27,9 @@
             {% endfor %}
         </td>
         <td>
-            {% if invoice.bill_to %}
-            <a href="{% url 'attendee_info' invoice.bill_to.id %}">{{ invoice.bill_to.first_name }} {{ invoice.bill_to.last_name }}</a><br/>
-            (Bidder No. {{ invoice.bill_to.bid_number }})
+            {% if invoice.attendee %}
+            <a href="{% url 'attendee_info' invoice.attendee.id %}">{{ invoice.attendee.first_name }} {{ invoice.attendee.last_name }}</a><br/>
+            (Bidder No. {{ invoice.attendee.bid_number }})
             {% endif %}
         </td>
         <td>

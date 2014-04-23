@@ -40,7 +40,7 @@ def update(request, id):
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
             if form.cleaned_data['winning_bid_number']:
-                invoice = Invoice.objects.get(bill_to=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+                invoice = Invoice.objects.get(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)
                 form.save()
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')

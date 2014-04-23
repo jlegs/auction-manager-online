@@ -24,13 +24,13 @@ class InvoiceForm(forms.ModelForm):
 
     class Meta:
         model = Invoice
-        fields = ['bill_to', 'paid_for_by', 'items', 'invoice_date', 'payment_type']
+        fields = ['attendee', 'paid_for_by', 'items', 'invoice_date', 'payment_type']
 
 
 class TableInvoiceDetailForm(forms.Form):
     CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
 
-#    table_assignment = ChoiceField(queryset=Invoice.objects.filter(bill_to__isnull=False).order_by('bill_to__table_assignment'))
+#    table_assignment = ChoiceField(queryset=Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment'))
     table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
     class Meta:
         model = Invoice

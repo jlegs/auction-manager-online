@@ -10,7 +10,7 @@ PAYMENT_CHOICES = (('cash', 'cash'),
                    )
 
 class Invoice(models.Model):
-    bill_to = models.OneToOneField('Attendee', default=None, related_name='invoice', blank=True, null=True)
+    attendee = models.OneToOneField('Attendee', default=None, related_name='invoice', blank=True, null=True)
     paid_for_by = models.ForeignKey('Attendee', default=None, related_name='invoices_paid', blank=True, null=True)
 #    total_amount = models.DecimalField(decimal_places=2, max_digits=30, default=Decimal('0.00'), blank=True, null=True)
     invoice_date = models.DateField(default=lambda: datetime.datetime.now(), blank=True, null=True)
@@ -23,7 +23,7 @@ class Invoice(models.Model):
         app_label = 'manager'
 
     def __unicode__(self):
-        return "Invoice for: %s" % self.bill_to
+        return "Invoice for: %s" % self.attendee
 
     def add_item_value(self, item):
         self.total_amount += item.selling_price

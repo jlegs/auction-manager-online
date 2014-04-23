@@ -18,7 +18,7 @@ def create(request):
         if form.is_valid():
             attendee = form.save()
             invoice = Invoice(total_amount=0)
-            invoice.bill_to = attendee
+            invoice.attendee = attendee
             invoice.save()
             messages.add_message(request, messages.SUCCESS, 'New Attendee Added. Invoice added and associated with attendee.')
             return redirect('attendee_list')

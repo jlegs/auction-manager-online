@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 
     url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
     url('^invoice/(\d+)$', 'manager.views.invoice.info', name='invoice_info'),
+    url('^invoice/bidder/(\d+)$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
     url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),

@@ -98,12 +98,12 @@ def delete(request, id):
 
 
 def table_list(request):
-    invoices = Invoice.objects.filter(bill_to__isnull=False).order_by('bill_to__table_assignment')
+    invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/invoice_list.html', context)
 
 def table_invoices_detail(request):
-    invoices = Invoice.objects.filter(bill_to__isnull=False).order_by('bill_to__table_assignment')
+    invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/table_invoices_detail.html', context)
 
@@ -111,14 +111,23 @@ def table_invoice_detail(request):
     if request.POST:
         form = TableInvoiceDetailForm(request.POST)
         if form.is_valid():
-            invoices = Invoice.objects.filter(bill_to__isnull=False).filter(bill_to__table_assignment=form.cleaned_data['table_assignment'])
+            invoices = Invoice.objects.filter(attendee__isnull=False).filter(attendee__table_assignment=form.cleaned_data['table_assignment'])
             context = {'invoices': invoices,
                        'form': form}
     else:
         form = TableInvoiceDetailForm()
 #        tables = set([attendee.table_assignment for attendee in Attendee.objects.all()])
 #        form.fields['table_assignment'].queryset = [{attendee.table_assignment, attendee.table_assignment} for attendee in Attendee.objects.all()]
-#        invoices = Invoice.objects.filter(bill_to__isnull=False).order_by('bill_to__table_assignment')
-#        invoices = Invoice.objects.filter(bill_to__table_assignment=id)
+#        invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
+#        invoices = Invoice.objects.filter(attendee__table_assignment=id)
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
+
+def bidder_invoice(request, bid_number):
+    attendee = Attendee.objects.filter(bid_number=bid_number).filter(year=lambda: datetime.datetime.now().year)[0]
+    invoice = Invoice.objects.filter(attendee=attendee)[0]
+    return render(request, 'invoice/info.html', {'invoice': invoice})
+
+
+
+

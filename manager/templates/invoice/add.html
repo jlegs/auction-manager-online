@@ -9,7 +9,7 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    Invoice For: {{ form.bill_to }}<br/>
+    Invoice For: {{ form.attendee }}<br/>
     Items: {{ form.items }}<br/>
     Invoice Date: {{ form.invoice_date }}<br/>
     <input id="id_total_amount" name="total_amount" step="0.01" type="hidden" value="0" /><br/>

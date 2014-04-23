@@ -34,6 +34,18 @@
             <th>Email:</th>
             <td>{{ attendee.email }}</td>
         </tr>
+        <tr>
+            <th>Invoice</th>
+            <td><a href="{% url 'invoice_info' attendee.invoice.id %}">{{ attendee.invoice }}</a></td>
+        </tr>
+        <tr>
+            <th>Invoice Items</th>
+            <td>{% for item in attendee.invoice.items.all %}
+                {{ item }}<br/>
+                {% endfor %}
+            </td>
+        </tr>
+
     </table>
 
     <input type="hidden" value="{{ attendee }}" name="attendee"/>

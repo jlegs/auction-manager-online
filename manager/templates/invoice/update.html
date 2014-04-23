@@ -17,21 +17,19 @@
         </tr>
         <tr>
             <th>Item(s) Number</th>
-            {% for item in invoice.items.all %}
-            <td>{{ item }}</td>
-            {% endfor %}
+            <td>
+                {% for item in invoice.items.all %}
+                {{ item }}<br/>
+                {% endfor %}
+            </td>
         </tr>
         <tr>
-            <th>Bill To</th>
+            <th>Invoice For</th>
             <td>{{ form.bill_to }}</td>
         </tr>
         <tr>
             <th>Paid For By</th>
             <td>{{ form.paid_for_by}}</td>
-        </tr>
-        <tr>
-            <th>Paid?</th>
-            <td>{{ form.paid }}</td>
         </tr>
         <tr>
             <th>Payment Type</th>
@@ -41,12 +39,10 @@
             <th>Add Items To Invoice</th>
             <td>{{ form.items }}</td>
         </tr>
-        {% if invoice.items.all %}
         <tr>
             <th>Remove Items</th>
             <td>{{ form.remove_items }}</td>
         </tr>
-        {% endif %}
         <tr>
             <th>Invoice Date</th>
             <td>{{ form.invoice_date }}</td>

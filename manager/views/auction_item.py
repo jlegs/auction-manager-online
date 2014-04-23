@@ -7,6 +7,7 @@ from manager.models.auction_item import AuctionItem
 from manager.forms import AuctionItemForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from exceptions import AttributeError
 from django.contrib import messages
 
 
@@ -17,10 +18,6 @@ def create(request):
         form = AuctionItemForm(request.POST)
         if form.is_valid():
             item = form.save()
-            invoice = Invoice(total_amount=0)
-            invoice.save()
-            invoice.items.add(item)
-            invoice.save()
             messages.add_message(request, messages.SUCCESS, 'Auction Item created')
             return redirect('item_list')
         else:
@@ -42,19 +39,11 @@ def update(request, id):
     if request.POST:
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
-            print form,
-            print form.cleaned_data
-            # Set a list of bid numbers so we can check if the winning bid number entered is valid
-            bid_numbers = [attendee.bid_number for attendee in Attendee.objects.filter(year=datetime.datetime.now().year)]
-            if form.cleaned_data['winning_bid_number'] in bid_numbers:
-                if form.cleaned_data['selling_price']:
-                    invoice = form.cleaned_data['invoice']
-                    invoice.set_total()
-                    invoice.save()
+            if form.cleaned_data['winning_bid_number']:
+                invoice = Invoice.objects.get(bill_to=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+                invoice.items.add(item)
                 form.save()
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
-            else:
-                messages.add_message(request, messages.WARNING, 'That Bid Number Does Not Exist')
             return redirect('item_list')
         else:
             return redirect('item_info', id)
@@ -69,7 +58,7 @@ def update(request, id):
 
 
 def info(request, id):
-    ''' Unimplemented
+    ''' Get item's info
     '''
     item = AuctionItem.objects.get(id=id)
     return render(request, 'auction_item/info.html', {'item': item})

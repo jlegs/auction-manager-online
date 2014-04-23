@@ -17,7 +17,10 @@ def create(request):
         form = AttendeeForm(request.POST)
         if form.is_valid():
             attendee = form.save()
-            messages.add_message(request, messages.SUCCESS, 'New Attendee Added')
+            invoice = Invoice(total_amount=0)
+            invoice.bill_to = attendee
+            invoice.save()
+            messages.add_message(request, messages.SUCCESS, 'New Attendee Added. Invoice added and associated with attendee.')
             return redirect('attendee_list')
         else:
             if len(Attendee.objects.filter(year=lambda: datetime.datetime.now().year)) > 0:
@@ -40,7 +43,6 @@ def create(request):
                    'bid_number': bid_number,
                    }
         return render(request, 'attendee/add.html', context)
-    return redirect('attendee_list')
 
 
 def update(request, id):

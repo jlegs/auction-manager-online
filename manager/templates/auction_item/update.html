@@ -38,10 +38,12 @@
             <th>Winning Bid Number:</th>
             <td>{{ form.winning_bid_number }}</td>
         </tr>
+        {% comment %}
         <tr>
             <th>Invoice:</th>
             <td>{{ form.invoice }}</td>
         </tr>
+        {% endcomment %}
     </table>
 
     <input type="hidden" value="{{ attendee }}" name="attendee"/>

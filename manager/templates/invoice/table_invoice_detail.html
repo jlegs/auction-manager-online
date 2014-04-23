@@ -14,7 +14,7 @@
     <table border="1px solid">
 
         <tr>
-            <th>Bill To:</th>
+            <th>Invoice For</th>
             <td>{{ invoice.bill_to.first_name }} {{ invoice.bill_to.last_name }}</td>
         </tr>
         <tr>
@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <th>Paid?</th>
-            <td>{{ invoice.paid|yesno }}</td>
+            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
         </tr>
         <tr>
             <th>Payment Type</th>

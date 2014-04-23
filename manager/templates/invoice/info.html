@@ -6,8 +6,18 @@
     {% csrf_token %}
 
     <table border="1px solid">
-
-
+        <tr>
+            <th>Invoice For</th>
+            <td>{{ invoice.bill_to }}</td>
+        </tr>
+        <tr>
+            <th>Items</th>
+            <td>
+                {% for item in invoice.items.all %}
+                    {{ item }}<br/>
+                {% endfor %}
+            </td>
+        </tr>
         <tr>
             <th>Paid For By:</th>
             <td>{{ invoice.paid_for_by }}</td>
@@ -22,7 +32,7 @@
         </tr>
         <tr>
             <th>Paid?</th>
-            <td>{{ invoice.paid|yesno }}</td>
+            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
         </tr>
         <tr>
             <th>Payment Type</th>

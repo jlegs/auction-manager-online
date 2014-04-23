@@ -6,7 +6,7 @@
         <th>Invoice ID</th>
         <th>Total Invoice Amount</th>
         <th>Item Record ID</th>
-        <th>Bill To</th>
+        <th>Invoice For</th>
         <th>Paid For By</th>
         <th>Invoice Date</th>
         <th>Paid?</th>
@@ -39,7 +39,7 @@
             {{ invoice.invoice_date }}
         </td>
         <td>
-            {{ invoice.paid|yesno }}
+            {{ invoice.paid_for_by|yesno:"yes,no" }}
         </td>
         <td>
             {{ invoice.payment_type }}

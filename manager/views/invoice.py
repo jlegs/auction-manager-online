@@ -116,10 +116,6 @@ def table_invoice_detail(request):
                        'form': form}
     else:
         form = TableInvoiceDetailForm()
-#        tables = set([attendee.table_assignment for attendee in Attendee.objects.all()])
-#        form.fields['table_assignment'].queryset = [{attendee.table_assignment, attendee.table_assignment} for attendee in Attendee.objects.all()]
-#        invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
-#        invoices = Invoice.objects.filter(attendee__table_assignment=id)
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
 

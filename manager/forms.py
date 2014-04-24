@@ -36,5 +36,12 @@ class TableInvoiceDetailForm(forms.Form):
         model = Invoice
         fields = []
 
+class TableAttendeeDetailForm(forms.Form):
+    CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
 
+#    table_assignment = ChoiceField(queryset=Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment'))
+    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
+    class Meta:
+        model = Attendee
+        fields = []
 

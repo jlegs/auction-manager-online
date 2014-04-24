@@ -32,6 +32,7 @@ urlpatterns = patterns('',
 
 
     url('^attendee/table/all$', 'manager.views.attendee.table_list', name='table_list'),
+    url('^attendee/table/detail$', 'manager.views.attendee.table_attendee_detail', name='table_attendee_detail'),
     url('^invoice/table/list/all$', 'manager.views.invoice.table_list', name='table_invoices'),
     url('^invoice/table/detail/all$', 'manager.views.invoice.table_invoices_detail', name='table_invoices_detail'),
     url('^invoice/table/detail/$', 'manager.views.invoice.table_invoice_detail', name='table_invoice_detail'),

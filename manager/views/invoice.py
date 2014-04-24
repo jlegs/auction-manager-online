@@ -120,16 +120,27 @@ def table_invoice_detail(request):
     return render(request, 'invoice/table_invoice_detail.html', context)
 
 def bidder_invoice(request):
+    context = {}
     if request.POST:
         form = BidderInvoiceForm(request.POST)
         if form.is_valid():
-            attendee = Attendee.objects.get(bid_number=form.cleaned_data['bid_number'])
-            invoice = Invoice.objects.get(attendee=attendee)
-            context = {'invoice': invoice,
-                       'form': form}
+            if form.cleaned_data['bid_number']:
+                attendee = Attendee.objects.get(bid_number=form.cleaned_data['bid_number'])
+                invoice = Invoice.objects.get(attendee=attendee)
+                context['invoice'] = invoice
+            # The next four lines dont work. need to implement a better form for this
+            if form.cleaned_data['last_name']:
+                attendees = Attendee.objects.filter(last_name=form.cleaned_data['last_name'])
+                invoices = Invoice.objects.filter(attendee__in=attendees)
+                context['invoices'] = invoices
+            if form.cleaned_data['first_name']:
+                attendees = Attendee.objects.filter(first_name=form.cleaned_data['first_name'])
+                invoices = Invoice.objects.filter(attendee__in=attendees)
+                context['invoices'] = invoices
+            context['form'] = form
         else:
-            context = {'errors': form.errors,
-                       'form': form}
+            context['errors'] = form.errors
+            context['form'] = form
         return render(request, 'invoice/bidder_invoice.html', context)
     else:
         form = BidderInvoiceForm()

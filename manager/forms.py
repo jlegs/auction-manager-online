@@ -45,6 +45,7 @@ class TableAttendeeDetailForm(forms.Form):
 
 
 class BidderInvoiceForm(forms.Form):
-    bid_number = forms.IntegerField()
-
+    bid_number = forms.IntegerField(required=False)
+    last_name = forms.CharField(required=False)
+    first_name = forms.CharField(required=False)
 

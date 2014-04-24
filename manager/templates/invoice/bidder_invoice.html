@@ -6,49 +6,22 @@
 {% if form %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.bid_number }}
-    <input type="submit" value="Search for bid number"/>
+    Bid Number: {{ form.bid_number }}<br/>
+    First Name: {{ form.first_name }}<br/>
+    Last Name: {{ form.last_name }}<br/>
+    <input type="submit" value="Search for invoice"/>
 </form>
+{% endif %}
+
+{% if invoices %}
+    {% for invoice in invoices %}
+        {% include 'partials/invoice_display.html' with invoice=invoice %}<br/>
+    {% endfor %}
 {% endif %}
 
 {% if invoice %}
 
-    <table border="1px solid">
-
-        <tr>
-            <th>Invoice For</th>
-            <td>{{ invoice.attendee.first_name }} {{ invoice.attendee.last_name }}</td>
-        </tr>
-        <tr>
-            <th>Paid For By:</th>
-            <td>{{ invoice.paid_for_by }}</td>
-        </tr>
-        <tr>
-            <th>Total Invoice Amount</th>
-            <td>{{ invoice.total_amount}}</td>
-        </tr>
-        <tr>
-            <th>Invoice Date</th>
-            <td>{{ invoice.invoice_date }}</td>
-        </tr>
-        <tr>
-            <th>Paid?</th>
-            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
-        </tr>
-        <tr>
-            <th>Payment Type</th>
-            <td>{{ invoice.payment_type }}</td>
-        </tr>
-        <tr>
-            <th>Items</th>
-            <td>
-                {% for item in invoice.items.all %}
-                {{ item }}<br/>
-                {% endfor %}
-            </td>
-        </tr>
-    </table><br/>
-
+        {% include 'partials/invoice_display.html' with invoice=invoice %}
 
 {% endif %}
 

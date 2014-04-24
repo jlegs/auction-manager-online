@@ -5,7 +5,7 @@ from manager.models.auction_item import AuctionItem
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableInvoiceDetailForm
+from manager.forms import InvoiceForm, TableInvoiceDetailForm, BidderInvoiceForm, AttendeeForm
 import datetime
 from django.contrib import messages
 from collections import OrderedDict
@@ -119,10 +119,22 @@ def table_invoice_detail(request):
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
 
-def bidder_invoice(request, bid_number):
-    attendee = Attendee.objects.filter(bid_number=bid_number).filter(year=lambda: datetime.datetime.now().year)[0]
-    invoice = Invoice.objects.filter(attendee=attendee)[0]
-    return render(request, 'invoice/info.html', {'invoice': invoice})
+def bidder_invoice(request):
+    if request.POST:
+        form = BidderInvoiceForm(request.POST)
+        if form.is_valid():
+            attendee = Attendee.objects.get(bid_number=form.cleaned_data['bid_number'])
+            invoice = Invoice.objects.get(attendee=attendee)
+            context = {'invoice': invoice,
+                       'form': form}
+        else:
+            context = {'errors': form.errors,
+                       'form': form}
+        return render(request, 'invoice/bidder_invoice.html', context)
+    else:
+        form = BidderInvoiceForm()
+        context = {'form': form}
+    return render(request, 'invoice/bidder_invoice.html', context)
 
 
 

@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url('^invoice/table/list/all$', 'manager.views.invoice.table_list', name='table_invoices'),
     url('^invoice/table/detail/all$', 'manager.views.invoice.table_invoices_detail', name='table_invoices_detail'),
     url('^invoice/table/detail/$', 'manager.views.invoice.table_invoice_detail', name='table_invoice_detail'),
+    url('^invoice/bidder/$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
 
 
 

@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'manager',
     'south',
     'multiselectfield',
@@ -63,8 +64,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'auctionmanager',
-        'USER': 'amo',
-        'PASSWORD': 'amo',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
         }
 }
@@ -90,4 +91,8 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/login/'
 
-
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}

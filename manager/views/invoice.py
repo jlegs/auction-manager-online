@@ -132,11 +132,11 @@ def bidder_invoice(request):
             if form.cleaned_data['last_name']:
                 attendees = Attendee.objects.filter(last_name=form.cleaned_data['last_name'])
                 invoices = Invoice.objects.filter(attendee__in=attendees)
-                context['invoices'] = invoices
+                context.update({'invoices': invoices})
             if form.cleaned_data['first_name']:
                 attendees = Attendee.objects.filter(first_name=form.cleaned_data['first_name'])
                 invoices = Invoice.objects.filter(attendee__in=attendees)
-                context['invoices'] = invoices
+                context.update({'invoices': invoices})
             context['form'] = form
         else:
             context['errors'] = form.errors

@@ -18,6 +18,7 @@ To run this locally, you'll need Django 1.6 and a mysql server running. You'll n
 You'll also need virtualenv. (We also recommend virtualenvwrapper to make your life easier). We'll install these globally so you can use them elsewhere.
 
 	sudo pip install virtualenv
+
 	sudo pip install virtualenvwrapper
 
 Next we'll create our virtualenv for the project. This can be any name you'd like, since this will be specific to your development environment.
@@ -33,7 +34,9 @@ Now you can install all the needed dependencies with a quick and simple
 The last thing you should need to do is make sure your database is ready. The following commands (entered inside a running MySQL shell) should get you  up and running.
 
 	create database auctionmanager;
+
 	create user 'amo'@'localhost' identified by 'password';
+	
 	grant all on auctionmanager.* to 'amo'@'localhost';
 
 Now you can run the Django server and visit localhost:8000 to see the app in action!

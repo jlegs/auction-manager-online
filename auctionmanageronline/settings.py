@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'haystack',
     'manager',
     'south',
-    'multiselectfield',
     'django_extensions',
 )
 

@@ -1,6 +1,5 @@
 from decimal import Decimal
 from django.db import models
-from multiselectfield import MultiSelectField
 import datetime
 
 

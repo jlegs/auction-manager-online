@@ -39,6 +39,8 @@ The last thing you should need to do is make sure your database is ready. The fo
 	
 	grant all on auctionmanager.* to 'amo'@'localhost';
 
+Don't forget to sync your database using ./manage.py syncdb before running your first migrations!
+
 Now you can run the Django server and visit localhost:8000 to see the app in action!
 
 

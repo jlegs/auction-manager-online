@@ -4,7 +4,7 @@ from django.contrib.auth.views import login as django_login, logout as django_lo
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import AttendeeForm, TableAttendeeDetailForm
+from manager.forms import AttendeeForm, TableAttendeeDetailForm, TableSelectForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -99,14 +99,16 @@ def table_list(request):
     return render(request, 'attendee/table_list.html', context)
 
 def table_attendee_detail(request):
+    choices = [(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)]
+
     if request.POST:
-        form = TableAttendeeDetailForm(request.POST)
+        form = TableSelectForm(request.POST, CHOICES=choices)
         if form.is_valid():
             attendees = Attendee.objects.filter(table_assignment=form.cleaned_data['table_assignment'])
             context = {'attendees': attendees,
                        'form': form}
     else:
-        form = TableAttendeeDetailForm()
+        form = TableSelectForm(CHOICES=choices)
         context = {'form': form}
     return render(request, 'attendee/table_detail_list.html', context)
 

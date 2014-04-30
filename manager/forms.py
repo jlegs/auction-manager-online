@@ -27,21 +27,26 @@ class InvoiceForm(forms.ModelForm):
         fields = ['attendee', 'paid_for_by', 'items', 'invoice_date', 'payment_type']
 
 
-class TableInvoiceDetailForm(forms.Form):
-    CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
+class TableSelectForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        choices = kwargs.pop('CHOICES')
+        super(TableSelectForm, self).__init__(*args, **kwargs)
+        self.fields['table_assignment'] = forms.ChoiceField(choices=choices)
 
-    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
-    class Meta:
-        model = Invoice
-        fields = []
+#    CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
+
+#    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
+#    class Meta:
+#        model = Invoice
+#        fields = []
 
 class TableAttendeeDetailForm(forms.Form):
     CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
 
-    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
-    class Meta:
-        model = Attendee
-        fields = []
+#    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
+#    class Meta:
+#        model = Attendee
+#        fields = []
 
 
 class BidderInvoiceForm(forms.Form):

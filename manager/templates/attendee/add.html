@@ -12,7 +12,7 @@
     <label for="id_table_assignment">Table Assignment:</label><input id="id_table_assignment" name="table_assignment" value="{{ table_assignment }}"/><br/>
     Phone: {{ form.phone }}<br/>
     Email: {{ form.email }}<br/>
-    <label for="id_bid_number">Bid Number:</label><input id="id_bid_number" name="bid_number" type="number" value="{{ bid_number }}"/><br/>
+    <label for="id_bid_number">Bid Number:</label> {{ bid_number }}<input id="id_bid_number" name="bid_number" type="hidden" value="{{ bid_number }}"/><br/>
     <input type="submit" value="Save New Attendee">
 </form>
 

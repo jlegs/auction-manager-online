@@ -5,7 +5,7 @@ from manager.models.auction_item import AuctionItem
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableInvoiceDetailForm, BidderInvoiceForm, AttendeeForm
+from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm
 import datetime
 from django.contrib import messages
 from collections import OrderedDict
@@ -108,16 +108,26 @@ def table_invoices_detail(request):
     return render(request, 'invoice/table_invoices_detail.html', context)
 
 def table_invoice_detail(request):
+    choices = [(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)]
+
     if request.POST:
-        form = TableInvoiceDetailForm(request.POST)
+        form = TableSelectForm(request.POST, CHOICES=choices)
         if form.is_valid():
             invoices = Invoice.objects.filter(attendee__isnull=False).filter(attendee__table_assignment=form.cleaned_data['table_assignment'])
             context = {'invoices': invoices,
                        'form': form}
     else:
-        form = TableInvoiceDetailForm()
+        form = TableSelectForm(CHOICES=choices)
+#        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
+
+
+
+
+
+
+
 
 def bidder_invoice(request):
     context = {}
@@ -144,6 +154,7 @@ def bidder_invoice(request):
         return render(request, 'invoice/bidder_invoice.html', context)
     else:
         form = BidderInvoiceForm()
+#        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
         context = {'form': form}
     return render(request, 'invoice/bidder_invoice.html', context)
 

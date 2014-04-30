@@ -108,7 +108,7 @@ def table_invoices_detail(request):
     return render(request, 'invoice/table_invoices_detail.html', context)
 
 def table_invoice_detail(request):
-    choices = [(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)]
+    choices = set([(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)])
 
     if request.POST:
         form = TableSelectForm(request.POST, CHOICES=choices)

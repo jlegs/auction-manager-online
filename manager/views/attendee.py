@@ -99,7 +99,7 @@ def table_list(request):
     return render(request, 'attendee/table_list.html', context)
 
 def table_attendee_detail(request):
-    choices = [(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)]
+    choices = set([(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)])
 
     if request.POST:
         form = TableSelectForm(request.POST, CHOICES=choices)

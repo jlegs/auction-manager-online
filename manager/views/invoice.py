@@ -5,7 +5,7 @@ from manager.models.auction_item import AuctionItem
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm
+from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm, TableMergeForm
 import datetime
 from django.contrib import messages
 from collections import OrderedDict
@@ -121,6 +121,23 @@ def table_invoice_detail(request):
 #        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
+
+
+
+
+def merge_invoices(request):
+    if request.POST:
+        form = TableMergeForm(request.POST)
+        if form.is_valid():
+            invoice_one = form.cleaned_data['invoice_one']
+            invoice_two = form.cleaned_data['invoice_two']
+            print invoice_one, invoice_two
+            context = {'form': form}
+    else:
+        form = TableMergeForm()
+        print form
+        context = {'form': form}
+    return render(request, 'invoice/merge.html', context)
 
 
 

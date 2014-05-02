@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
+    url('^invoice/merge/$', 'manager.views.invoice.merge_invoices', name='merge_invoices'),
 
 
     url('^attendee/table/all$', 'manager.views.attendee.table_list', name='table_list'),
@@ -39,7 +40,7 @@ urlpatterns = patterns('',
     url('^invoice/bidder/$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
 
 
-
+    url(r'^select2/', include('django_select2.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )

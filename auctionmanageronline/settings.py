@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'manager',
     'south',
     'django_extensions',
+    'django_select2',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,6 +87,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = '/home/josh/code/auction-manager-online'
 LOGIN_URL = '/login/'
 

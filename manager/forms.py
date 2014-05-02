@@ -3,6 +3,7 @@ from django import forms
 from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
 from manager.models.invoice import Invoice
+from django_select2 import *
 
 class AttendeeForm(forms.ModelForm):
     class Meta:
@@ -40,13 +41,17 @@ class TableSelectForm(forms.Form):
 #        model = Invoice
 #        fields = []
 
-class TableAttendeeDetailForm(forms.Form):
-    CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
 
-#    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
-#    class Meta:
-#        model = Attendee
-#        fields = []
+queryset = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)
+class TableMergeForm(forms.Form):
+    invoice_one = ModelSelect2Field(queryset=queryset)
+    invoice_two = ModelSelect2Field(queryset=queryset)
+
+    # Kinda a bad way to set the styling on these inputs, but the right way to do it is a bit more complicated. TODO: fix this
+    def __init__(self, *args, **kwargs):
+        super(TableMergeForm, self).__init__(*args, **kwargs)
+        self.fields['invoice_two'].widget.attrs['style'] = 'width: 500;'
+        self.fields['invoice_one'].widget.attrs['style'] = 'width: 500;'
 
 
 class BidderInvoiceForm(forms.Form):

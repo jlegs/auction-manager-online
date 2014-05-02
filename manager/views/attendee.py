@@ -4,7 +4,7 @@ from django.contrib.auth.views import login as django_login, logout as django_lo
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import AttendeeForm, TableAttendeeDetailForm, TableSelectForm
+from manager.forms import AttendeeForm, TableSelectForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -69,7 +69,7 @@ def update(request, id):
 
 
 def info(request, id):
-    ''' Unimplemented
+    ''' Gets info for an attendee
     '''
     attendee = Attendee.objects.get(id=id)
     return render(request, 'attendee/info.html', {'attendee': attendee})
@@ -84,21 +84,32 @@ def list(request):
     return render(request, 'attendee/attendee_list.html', context)
 
 def confirm_delete(request, id):
+    ''' does nothing right now
+    '''
     return redirect('home')
 
 
 def delete(request, id):
+    '''
+    deletes an attendee
+    '''
     attendee = Attendee.objects.get(id=id)
     attendee.delete()
     return redirect('attendee_list')
 
 
 def table_list(request):
+    '''
+    orders attendees by table
+    '''
     attendees = Attendee.objects.all().order_by('table_assignment')
     context = {'attendees': attendees}
     return render(request, 'attendee/table_list.html', context)
 
 def table_attendee_detail(request):
+    '''
+    View to retrieve all attendees at a certain table
+    '''
     choices = set([(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)])
 
     if request.POST:

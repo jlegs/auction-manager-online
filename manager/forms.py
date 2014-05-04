@@ -44,14 +44,14 @@ class TableSelectForm(forms.Form):
 
 queryset = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)
 class TableMergeForm(forms.Form):
-    invoice_one = ModelSelect2Field(queryset=queryset)
-    invoice_two = ModelSelect2Field(queryset=queryset)
+    invoices = ModelSelect2MultipleField(queryset=queryset)
+#    invoice_two = ModelSelect2Field(queryset=queryset)
 
     # Kinda a bad way to set the styling on these inputs, but the right way to do it is a bit more complicated. TODO: fix this
     def __init__(self, *args, **kwargs):
         super(TableMergeForm, self).__init__(*args, **kwargs)
-        self.fields['invoice_two'].widget.attrs['style'] = 'width: 500;'
-        self.fields['invoice_one'].widget.attrs['style'] = 'width: 500;'
+        self.fields['invoices'].widget.attrs['style'] = 'width: 500;'
+#        self.fields['invoice_one'].widget.attrs['style'] = 'width: 500;'
 
 
 class BidderInvoiceForm(forms.Form):

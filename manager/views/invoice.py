@@ -129,10 +129,15 @@ def merge_invoices(request):
     if request.POST:
         form = TableMergeForm(request.POST)
         if form.is_valid():
-            invoice_one = form.cleaned_data['invoice_one']
-            invoice_two = form.cleaned_data['invoice_two']
-            print invoice_one, invoice_two
-            context = {'form': form}
+            invoices = form.cleaned_data['invoices']
+            new_invoice = Invoice()
+            for invoice in invoices:
+                for item in invoice.items.all():
+                    new_invoice.items.add(item)
+                    new_invoice.save()
+            context = {'form': form,
+                       'new_invoice': new_invoice
+            }
     else:
         form = TableMergeForm()
         print form

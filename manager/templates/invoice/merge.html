@@ -6,16 +6,26 @@
         type="text/javascript"></script>
 
 
+** NOTE: This will remove all items from Invoice A and add them to Invoice B. It will not modify Invoice A other than that, so that invoice will still belong to the guest it currently belongs to.<br/>
 
 
 <form method="post" action="">
 {% csrf_token %}
 
-Invoice A: {{ form.invoice_one }}<br/>
-Invoicd B: {{ form.invoice_two }}<br/>
+Invoice A: {{ form.invoices }}<br/>
 
 <input type="submit" value="Submit Form"/>
 </form>
+
+
+
+{% if new_invoice %}
+<p>
+    {{ new_invoice }}
+</p>
+{% endif %}
+
+
 
 
 

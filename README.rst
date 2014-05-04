@@ -5,9 +5,26 @@ For any nontechnical readers who got here through some sort of search for 'aucti
 
 The application aims to help nonprofits manage auction fundraisers, which often constitute a large portion of their annual funding.
 
-Currently, the system allows users to create auction Items, Guests and Invoices (which default to one invoice per guest).
+Current features:
 
-Users can also view the list of guests, items and invoices, as well as view invoices and guests by table assignment.
+* Add guests (invoice is created for the guest when the guest is created)
+
+* Add auction items
+
+* Add invoices (in case you need to just create a new invoice for a guest)
+
+* Merge multiple invoices into one
+
+* View Guest list (or view the guest list per table)
+
+* View Invoice list (or view the invoices for guests at a specific table)
+
+* Search Invoices by Bidder number, first name or last name
+
+* View Item list
+
+
+
 
 Setup
 ---------------

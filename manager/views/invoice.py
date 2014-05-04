@@ -121,6 +121,8 @@ def table_invoice_detail(request):
             invoices = Invoice.objects.filter(attendee__isnull=False).filter(attendee__table_assignment=form.cleaned_data['table_assignment'])
             context = {'invoices': invoices,
                        'form': form}
+        else:
+            return redirect('invoice_list')
     else:
         form = TableSelectForm(CHOICES=choices)
 #        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
@@ -143,12 +145,13 @@ def merge_invoices(request):
             context = {'form': form,
                        'new_invoice': new_invoice
             }
+            return render(request, 'invoice/merge.html', context)
+        else:
+            return redirect('merge_invoices')
     else:
         form = TableMergeForm()
-        print form
         context = {'form': form}
     return render(request, 'invoice/merge.html', context)
-
 
 
 

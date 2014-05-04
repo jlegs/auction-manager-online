@@ -49,13 +49,18 @@ def update(request, id):
     ''' Updates an attendee record
     '''
     attendee = get_object_or_404(Attendee, id=id)
-
+    bid_list = [a.bid_number for a in Attendee.objects.filter(year=lambda: datetime.datetime.now().year).exclude(
+        id=attendee.id)]
     if request.POST:
         form = AttendeeForm(request.POST, instance=attendee)
         if form.is_valid():
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Attendee Information updated for %s' % (attendee.first_name + " " + attendee.last_name))
-            return redirect('attendee_list')
+            if form.cleaned_data['bid_number'] in bid_list:
+                messages.add_message(request, messages.WARNING, 'That bid number is already assigned to another guest')
+                return redirect('attendee_info', id)
+            else:
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Attendee Information updated for %s' % (attendee.first_name + " " + attendee.last_name))
+                return redirect('attendee_list')
         else:
             return redirect('attendee_info', id)
     else:

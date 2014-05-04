@@ -93,7 +93,12 @@ def confirm_delete(request, id):
 
 def delete(request, id):
     invoice = get_object_or_404(Invoice, id=id)
-    invoice.delete()
+    if invoice.items.all():
+        messages.add_message(request, messages.WARNING, 'Unable to delete invoices that have items associated with '
+                                                        'them.')
+        return redirect('invoice_list')
+    else:
+        invoice.delete()
     return redirect('invoice_list')
 
 

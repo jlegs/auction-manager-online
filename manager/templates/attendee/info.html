@@ -36,13 +36,22 @@
         </tr>
         <tr>
             <th>Invoice</th>
-            <td><a href="{% url 'invoice_info' attendee.invoice.id %}">{{ attendee.invoice }}</a></td>
+            <td>
+                {% if attendee.invoice %}
+                <a href="{% url 'invoice_info' attendee.invoice.id %}">{{ attendee.invoice }}</a>
+                {% else %}
+                <a href="{% url 'add_invoice' %}">Create Invoice</a>
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <th>Invoice Items</th>
-            <td>{% for item in attendee.invoice.items.all %}
+            <td>
+                {% if attendee.invoice.items.all %}
+                {% for item in attendee.invoice.items.all %}
                 {{ item }}<br/>
                 {% endfor %}
+                {% endif %}
             </td>
         </tr>
 

@@ -44,7 +44,9 @@
     <input type="submit" value="Update Invoice" name="update_invoice" id="submit" />
 </form>
 
-
+{% if invoice.paid_for_by %}
+    <img src="{{ STATIC_URL }}jTxEbrB8c.png"/>
+{% endif %}
 
 
 {% if error %}

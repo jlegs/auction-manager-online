@@ -23,7 +23,7 @@ Current features:
 
 * View Item list
 
-![Alt text](/blob/screenshots/auction.png?raw=true "Auction ScreenShot")
+[Alt text!](/blob/screenshots/auction.png?raw=true "Auction ScreenShot")
 
 
 Setup

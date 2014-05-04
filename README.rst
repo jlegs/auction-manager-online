@@ -23,7 +23,7 @@ Current features:
 
 * View Item list
 
-.. image:: blob/screenshots/auction.png
+.. image:: auction.png
 
 
 Setup

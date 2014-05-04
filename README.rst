@@ -23,6 +23,12 @@ Current features:
 
 * View Item list
 
+Future features:
+
+* View past year's guests, items and invoices
+
+
+
 .. image:: auction.png
 .. image:: auction2.png
 .. image:: auction3.png

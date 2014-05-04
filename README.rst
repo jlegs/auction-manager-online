@@ -24,6 +24,8 @@ Current features:
 * View Item list
 
 .. image:: auction.png
+.. image:: auction2.png
+.. image:: auction3.png
 
 
 Setup

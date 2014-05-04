@@ -23,7 +23,7 @@ Current features:
 
 * View Item list
 
-.. image:: https://github.com/lightcastle/auction-manager-online/blob/screenshots/auction.png
+.. image:: blob/screenshots/auction.png
 
 
 Setup

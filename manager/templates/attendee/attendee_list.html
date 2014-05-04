@@ -21,10 +21,10 @@
             {{ attendee.bid_number }}
         </td>
         <td>
-            <a href="{% url 'update_attendee' attendee.id %}"><button type="button">Update Attendee</button></a>
+            <a href="{% url 'update_attendee' attendee.id %}"><button type="button" id="submit">Update Attendee</button></a>
         </td>
         <td>
-            <a href="{% url 'delete_attendee' attendee.id %}"><button type="button">delete</button></a>
+            <a href="{% url 'delete_attendee' attendee.id %}"><button type="button" id="submit">delete</button></a>
         </td>
     </tr>
 {% endfor %}

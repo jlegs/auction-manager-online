@@ -36,7 +36,7 @@
             <form method="post" action="{% url 'add_attendee' %}">
                 {% csrf_token %}
                 <input type="hidden" name="table_assignment" value="{{ attendee.table_assignment }}"/>
-                <input type="submit" value="Add attendee to table"/>
+                <input type="submit" value="Add attendee to table" id="submit" />
             </form>
         </td>
     </tr>

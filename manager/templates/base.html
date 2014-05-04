@@ -65,7 +65,7 @@
             </table>
                     <form id="logout_form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    <input type="submit" value="log out" />
+                    <input type="submit" value="log out" id="submit" />
                     </form>
             {% endif %}
         <br/>

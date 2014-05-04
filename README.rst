@@ -23,7 +23,7 @@ Current features:
 
 * View Item list
 
-![Alt text](https://github.com/lightcastle/auction-manager-online/blob/screenshots/auction.png "Auction ScreenShot")
+.. image::(https://github.com/lightcastle/auction-manager-online/blob/screenshots/auction.png "Auction ScreenShot")
 
 
 Setup

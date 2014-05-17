@@ -28,11 +28,6 @@ def logout(request):
 
 
 
-
-
-## COPIED FROM MUCKRACK
-
-
 @login_required
 def change_password(request):
     return django_auth_views.password_change(

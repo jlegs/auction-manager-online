@@ -120,7 +120,9 @@ def table_invoice_detail(request):
         if form.is_valid():
             invoices = Invoice.objects.filter(attendee__isnull=False).filter(attendee__table_assignment=form.cleaned_data['table_assignment'])
             context = {'invoices': invoices,
-                       'form': form}
+                       'form': form,
+                       'table': invoices[0].attendee.table_assignment,
+                       }
         else:
             return redirect('invoice_list')
     else:
@@ -143,7 +145,7 @@ def merge_invoices(request):
                     new_invoice.items.add(item)
                     new_invoice.save()
             context = {'form': form,
-                       'new_invoice': new_invoice
+                       'new_invoice': new_invoice,
             }
             return render(request, 'invoice/merge.html', context)
         else:

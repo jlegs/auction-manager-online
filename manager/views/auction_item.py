@@ -4,7 +4,7 @@ from django.contrib.auth.views import login as django_login, logout as django_lo
 from manager.models.invoice import Invoice
 from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
-from manager.forms import AuctionItemForm
+from manager.forms import AuctionItemForm, ItemSearchForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from exceptions import AttributeError
@@ -62,6 +62,27 @@ def info(request, id):
     '''
     item = AuctionItem.objects.get(id=id)
     return render(request, 'auction_item/info.html', {'item': item})
+
+
+def item_search(request):
+    """
+    Search for Item by item number
+    """
+    context = {}
+    if request.POST:
+        form = ItemSearchForm(request.POST)
+        if form.is_valid():
+            item = AuctionItem.objects.get(id=form.cleaned_data['item_number'])
+            context['item'] = item
+            context['form'] = form
+        else:
+            return render(request, 'quction_item/item_search.html', context)
+    else:
+        form = ItemSearchForm()
+        context['form'] = form
+
+    return render(request, 'auction_item/item_search.html', context)
+
 
 
 def list(request):

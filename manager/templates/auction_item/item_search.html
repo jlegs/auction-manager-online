@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% if form %}
+<form action="" method="post">
+    {% csrf_token %}
+    Item Number: {{ form.item_number }}<br/>
+    <input type="submit" value="Search for item" id="submit" />
+</form>
+{% endif %}
+
+{% if item %}
+    <a href="{% url 'item_info' item.id %}">{{ item.item_number }} - {{ item.description }}</a>
+{% endif %}
+
+
+
+
+
+
+
+
+
+{% endblock %}

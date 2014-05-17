@@ -17,7 +17,7 @@ class AuctionItemForm(forms.ModelForm):
 
     class Meta:
         model = AuctionItem
-        fields = ['description', 'date_received', 'retail_value', 'selling_price', 'starting_value', 'increment_amount', 'winning_bid_number', 'invoice']
+        fields = ['description', 'date_received', 'retail_value', 'selling_price', 'starting_value', 'increment_amount', 'winning_bid_number', 'invoice', 'item_number']
 
 class InvoiceForm(forms.ModelForm):
     items = forms.ModelChoiceField(queryset=AuctionItem.objects.filter(year=lambda: datetime.datetime.now().year).filter(invoice__isnull=True), required=False)
@@ -40,6 +40,10 @@ class TableSelectForm(forms.Form):
 #    class Meta:
 #        model = Invoice
 #        fields = []
+
+class ItemSearchForm(forms.Form):
+    item_number = forms.IntegerField()
+
 
 
 queryset = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)

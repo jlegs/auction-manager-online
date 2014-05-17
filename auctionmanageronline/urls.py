@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url('^item/update/(\d+)$', 'manager.views.auction_item.update', name='update_item'),
     url('^item/all$', 'manager.views.auction_item.list', name='item_list'),
     url('^item/delete/(\d+)$', 'manager.views.auction_item.delete', name='delete_item'),
+    url('^item/search/$', 'manager.views.auction_item.item_search', name='item_search'),
 
     url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
     url('^invoice/(\d+)$', 'manager.views.invoice.info', name='invoice_info'),

@@ -10,7 +10,7 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    Item Number: [Item Number will be Auto-Generated when you create the item]<br/>
+    Item Number: {{ form.item_number }}<br/>
     Description: {{ form.description }}<br/>
     ** Make sure your date is in the format of YYYY-MM-DD **<br/>
     Date Received: {{ form.date_received }}<br/>

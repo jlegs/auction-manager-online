@@ -2,6 +2,9 @@
 
 {% block content %}
 
+{% if table %}
+    TABLE: {{ table }}
+{% endif %}
 {% if form %}
 <form action="" method="post">
 {% csrf_token %}
@@ -11,7 +14,7 @@
 {% endif %}
     {% for invoice in invoices %}
 
-    <table border="1px solid">
+    <table border="1px solid" class="page-break-before">
 
         <tr>
             <th>Invoice For</th>
@@ -41,7 +44,7 @@
             <th>Items</th>
             <td>
                 {% for item in invoice.items.all %}
-                {{ item }}<br/>
+                ${{ item.selling_price}} - {{ item }}<br/>
                 {% endfor %}
             </td>
         </tr>

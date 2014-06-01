@@ -4,7 +4,44 @@
 
 {% block content %}
 
-stuff!
+Welcome to The Wildlife Center of Virginia's Annual Auction website!<br/><br/>
+
+This is your home page. It will serve as the site's documentation. If you ever need to know anything, simply refer back to this page. It should answer most of your questions.<br/><br/>
+
+<h1>General Info</h1>
+Your navigation is the list of links at the top of the page. They are grouped by column:<br/><br/>
+<li>column 1 is for Attendees</li>
+<li>column 2 is for Items</li>
+<li>column 3 is for Invoices.</li>
+<br/>
+The first item in each navigation column will take you to a list of the <span class="bold">CURRENT YEAR'S</span> records of that type.
+E.G: "View Attendee List" will take you to the list of attendees (aka guests) for the current year.
+<br/><br/>
+Adding a record is as simple as clicking the <span class="bold">ADD</span> link in the navigation section for the type of record you want to add.
+<br/><br/>
+You can vew <span class="bold">PAST YEAR's</span> records by clicking the navigation link for past years for the type of record you'd like to view.
+On that page you will see a form to get the year you'd like to see. Simply enter the value in numeric form (e.g. 2014), and click the form button to view the results.
+<br/><br/>
+You may view invoices and attendees <span class="bold">BY TABLE</span>, by clicking the appropriate link in the navigation menu.
+As with the past year's records, there is a form for you to enter the table you'd like to view. This form is a drop-down menu of available tables -- if a table has no attendees assigned to it,
+it will not appear in this list.
+<br/><br/>
+You can view <span class="bold">UNSOLD ITEMS FOR THE CURRENT YEAR</span> under the "unsold items" link in the navigation menu. This feature is not available for past years.
+<br/><br/>
+
+
+<h1>Invoices</h1>
+Invoices are the most complex records in this web application, namely because of the ability to combine multiple invoices into one.
+<br/><br/>
+<div class="bold">***IMPORTANT INFO ON MERGING INVOICES***</div>
+<br/>
+You can combine multiple invoices into one using the <span class="bold">MERGE INVOICES</span> navigation link. This will allow you to merge multiple invoices by using the form field provided.
+Enter all the invoices you'd like to merge in this one field. In the form entry field, you can start typing and the application will give you invoices matching what you've typed so far.
+<span class="bold">The original invoices will be left intact and you will stil be able to view them.</span> Internally, the merged invoice
+is little more than a list of all the "merged" invoices. That in effect means a Merged Invoice is a display of all the items from the individual invoices.
+<br/><br/>
+Deleting a Merged Invoice will essentially unmerge the individual invoices that make up the Merged Invoice. You can also manually remove invoices from a Merged Invoice. You can search merged invoices
+by
 
 {% endblock %}
 

@@ -8,8 +8,11 @@ from manager.forms import AttendeeForm, TableSelectForm, YearForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+
+@login_required
 def create(request):
     ''' creates a new attendee for the current year's auction.
     '''
@@ -45,6 +48,7 @@ def create(request):
         return render(request, 'attendee/add.html', context)
 
 
+@login_required
 def update(request, id):
     ''' Updates an attendee record
     '''
@@ -73,6 +77,7 @@ def update(request, id):
 
 
 
+@login_required
 def info(request, id):
     ''' Gets info for an attendee
     '''
@@ -80,6 +85,7 @@ def info(request, id):
     return render(request, 'attendee/info.html', {'attendee': attendee})
 
 
+@login_required
 def list(request):
     ''' Get a list of all attendees for the current year's auction.
     '''
@@ -88,12 +94,14 @@ def list(request):
                }
     return render(request, 'attendee/attendee_list.html', context)
 
+@login_required
 def confirm_delete(request, id):
     ''' does nothing right now
     '''
     return redirect('home')
 
 
+@login_required
 def delete(request, id):
     '''
     deletes an attendee
@@ -103,6 +111,7 @@ def delete(request, id):
     return redirect('attendee_list')
 
 
+@login_required
 def table_list(request):
     '''
     orders attendees by table
@@ -111,6 +120,7 @@ def table_list(request):
     context = {'attendees': attendees}
     return render(request, 'attendee/table_list.html', context)
 
+@login_required
 def table_attendee_detail(request):
     '''
     View to retrieve all attendees at a certain table
@@ -130,6 +140,7 @@ def table_attendee_detail(request):
 
 
 
+@login_required
 def past_attendees(request):
     ''' Get a list of all auction items for the a past year's auction.
     '''

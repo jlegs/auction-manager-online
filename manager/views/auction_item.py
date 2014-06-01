@@ -9,8 +9,10 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from exceptions import AttributeError
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def create(request):
     ''' creates a new auction item for the current year's auction.
     '''
@@ -30,7 +32,7 @@ def create(request):
         return render(request, 'auction_item/add.html', context)
     return redirect('item_list')
 
-
+@login_required
 def update(request, id):
     ''' Updates an auction item record
     '''
@@ -57,6 +59,7 @@ def update(request, id):
 
 
 
+@login_required
 def info(request, id):
     ''' Get item's info
     '''
@@ -64,6 +67,7 @@ def info(request, id):
     return render(request, 'auction_item/info.html', {'item': item})
 
 
+@login_required
 def item_search(request):
     """
     Search for Item by item number
@@ -88,6 +92,7 @@ def item_search(request):
 
 
 
+@login_required
 def unsold_item_list(request):
     ''' Get a list of all unsold auction items for the current year's auction.
     '''
@@ -96,6 +101,7 @@ def unsold_item_list(request):
                }
     return render(request, 'auction_item/item_list.html', context)
 
+@login_required
 def past_items(request):
     ''' Get a list of all auction items for the a past year's auction.
     '''
@@ -119,6 +125,7 @@ def past_items(request):
 
 
 
+@login_required
 def list(request):
     ''' Get a list of all auction items for the current year's auction.
     '''
@@ -127,10 +134,13 @@ def list(request):
                }
     return render(request, 'auction_item/item_list.html', context)
 
+
+@login_required
 def confirm_delete(request, id):
     return redirect('home')
 
 
+@login_required
 def delete(request, id):
     item = AuctionItem.objects.get(id=id)
     item.delete()

@@ -9,8 +9,10 @@ from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, Atten
 import datetime
 from django.contrib import messages
 from collections import OrderedDict
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def create(request):
     ''' creates a new invoice for the current year's auction.
     '''
@@ -34,6 +36,7 @@ def create(request):
         return render(request, 'invoice/add.html', context)
 
 
+@login_required
 def update(request, id):
     ''' Updates an auction item record
     '''
@@ -69,6 +72,7 @@ def update(request, id):
 
 
 
+@login_required
 def info(request, id):
     ''' Deletes an invoice
     '''
@@ -79,6 +83,7 @@ def info(request, id):
     return render(request, 'invoice/info.html', {'invoice': invoice})
 
 
+@login_required
 def list(request):
     ''' Get a list of all auction items for the current year's auction.
     '''
@@ -91,6 +96,7 @@ def confirm_delete(request, id):
     return redirect('home')
 
 
+@login_required
 def delete(request, id):
     invoice = get_object_or_404(Invoice, id=id)
     if invoice.items.all():
@@ -102,16 +108,19 @@ def delete(request, id):
     return redirect('invoice_list')
 
 
+@login_required
 def table_list(request):
     invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/invoice_list.html', context)
 
+@login_required
 def table_invoices_detail(request):
     invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/table_invoices_detail.html', context)
 
+@login_required
 def table_invoice_detail(request):
     choices = set([(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)])
 
@@ -134,6 +143,7 @@ def table_invoice_detail(request):
 
 
 
+@login_required
 def merge_invoices(request):
     if request.POST:
         form = TableMergeForm(request.POST)
@@ -158,12 +168,14 @@ def merge_invoices(request):
 
 
 
+@login_required
 def merged_invoice(request, id):
     invoice = MergedInvoice.objects.get(id=id)
     context = {'invoice': invoice}
     return render(request, 'invoice/merged_invoice.html', context)
 
 
+@login_required
 def past_invoices(request):
     ''' Get a list of all auction items for the a past year's auction.
     '''
@@ -185,6 +197,7 @@ def past_invoices(request):
 
 
 
+@login_required
 def bidder_invoice(request):
     context = {}
     if request.POST:

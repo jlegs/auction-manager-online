@@ -17,5 +17,5 @@ class Attendee(models.Model):
         app_label = 'manager'
 
     def __unicode__(self):
-        return "Bidder No." + unicode(self.bid_number)
+        return self.first_name + " " + self.last_name
 

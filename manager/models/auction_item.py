@@ -15,7 +15,7 @@ class AuctionItem(models.Model):
     increment_amount = models.DecimalField(decimal_places=2, max_digits=30)
     winning_bid_number = models.IntegerField(default=None, blank=True, null=True)
     year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
-    item_number = models.IntegerField(default=1)
+    item_number = models.IntegerField(default=None)
 
     class Meta:
         verbose_name_plural = "auction items"

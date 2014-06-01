@@ -2,144 +2,16 @@
 
 {% block content %}
 
-<div class="invoice-header">
-<div class="logo">
-    <img src="{{ STATIC_URL}}wcvlogo.png" />
-</div>
+{% include 'partials/invoice_display.html' with invoice=invoice %}
 
-<div class="invoice-date">
-    Annual Auction {{ invoice.year }}<br/>
-    DATE
-</div>
-</div>
+<a href="#" id="print">Print this page!</a>
 
-
-<div class="invoice-body">
-    <div class="invoice-number">
-        Invoice Number: {{ invoice.id }}
-    </div>
-
-    <div class="bidder-info">
-        Bid Number: {{ invoice.attendee.bid_number }}
-        <br/>({{ invoice.attendee }})
-    </div>
-
-    <div class="item-list-header">
-        <div class="item-number-header">
-            Item Number
-        </div>
-        <div class="item-description-header">
-            Item Description
-        </div>
-        <div class="item-price-header">
-            Price
-        </div>
-    </div>
-    <br/>
-    <div class="item-list-container">
-        {% for item in invoice.items.all %}
-
-        <div class="item-number">
-            {{ item.item_number }}
-        </div>
-
-        <div class="item-description">
-            {{ item }}
-        </div>
-
-        <div class="item-price">
-            {{ item.selling_price }}
-        </div>
-        <br/>
-
-        {% endfor %}
-        <br/>
-    </div>
-
-        <div class="invoice-total">
-            Invoice Total
-            ${{ invoice.total_amount }}
-        </div>
-
-
-        <div class="invoiced-to">
-            Sold to:
-            {{ invoice.paid_for_by }}
-        </div>
-
-        <br/><br/><br/>
-
-        <div class="payment-method">
-            Payment Method:  {{ invoice.payment_type }}
-        </div>
-
-        <br/><br/><br/>
-        <div class="thank-you">
-            Thank you for supporting the Wildlife Center of Virginia!
-        </div>
-
-</div>
-
-
-
-
-
-<form action="{% url 'update_invoice' invoice.id %}" method="get">
-    {% csrf_token %}
-    <input type="hidden" value="{{ invoice }}" name="invoice"/>
-    <input type="submit" value="Update Invoice" name="update_invoice" id="submit" />
-</form>
-
-
-<!---
-    <table border="1px solid">
-        <tr>
-            <th>Invoice For</th>
-            <td>{{ invoice.attendee }}</td>
-        </tr>
-        <tr>
-            <th>Items</th>
-            <td>
-                {% for item in invoice.items.all %}
-                    {{ item }}<br/>
-                {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <th>Paid For By:</th>
-            <td>{{ invoice.paid_for_by }}</td>
-        </tr>
-        <tr>
-            <th>Total Invoice Amount</th>
-            <td>{{ invoice.total_amount}}</td>
-        </tr>
-        <tr>
-            <th>Invoice Date</th>
-            <td>{{ invoice.invoice_date }}</td>
-        </tr>
-        <tr>
-            <th>Paid?</th>
-            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
-        </tr>
-        <tr>
-            <th>Payment Type</th>
-            <td>{{ invoice.payment_type }}</td>
-        </tr>
-    </table>
--->
-
-
-{% if invoice.paid_for_by %}
-    <img src="{{ STATIC_URL }}jTxEbrB8c.png"/>
-{% endif %}
-
-
-{% if error %}
-
-No Attendee information found for attendee with ID {{ id }}
-
-{% endif %}
-
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+$('#print').click(function () {
+  $('.body-container').removeClass('body-container');
+  window.print();
+  return false;})</script>
 
 {% endblock %}
 

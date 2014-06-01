@@ -2,11 +2,13 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/print.css" media="print"/>
 </head>
 <title>{% block title %}{% endblock %}
 </title>
 <body>
+    <div class="noPrint">
     <div id="nav">
         {% block header_nav %}
         <center>
@@ -62,6 +64,24 @@
                     </td>
                 </tr>
 
+                <tr>
+                    <td>
+                    </td>
+                    <td></td>
+                    <td>
+                        <a href="{% url 'merge_invoices' %}">View Merged Invoices</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    </td>
+                    <td></td>
+                    <td>
+                        <a href="{% url 'merge_invoices' %}">View Single Merged I</a>
+                    </td>
+                </tr>
+
             </table>
                     <form id="logout_form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
@@ -71,6 +91,7 @@
         <br/>
         </center>
         {% endblock %}
+    </div>
     </div>
 
 

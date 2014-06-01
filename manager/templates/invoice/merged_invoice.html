@@ -1,7 +1,6 @@
+{% extends 'base.html' %}
 
-{% if invoice.merged_invoice %}
-    **** Note: This invoice has been merged with another invoice. View the merged invoices here: {% url 'merged_invoice' invoice.merged_invoice.id %} ****
-{% endif %}
+{% block content %}
 
 <div class="invoice-header">
 <div class="logo">
@@ -83,13 +82,12 @@
 
 
 
-<div class="noPrint">
+
 <form action="{% url 'update_invoice' invoice.id %}" method="get">
     {% csrf_token %}
     <input type="hidden" value="{{ invoice }}" name="invoice"/>
     <input type="submit" value="Update Invoice" name="update_invoice" id="submit" />
 </form>
-</div>
 
 
 <!---
@@ -140,6 +138,9 @@
 No Attendee information found for attendee with ID {{ id }}
 
 {% endif %}
+
+
+{% endblock %}
 
 
 

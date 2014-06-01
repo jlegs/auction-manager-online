@@ -22,8 +22,8 @@
         </td>
         <td>
             {% for item in invoice.items.all %}
-                <a href="{% url 'item_info' item.id %}">{{ item.id }}</a><br/>
-                ({{ item.description }})
+                <a href="{% url 'item_info' item.id %}">{{ item.item_number }}</a><br/>
+                ({{ item.description }})<br/>
             {% endfor %}
         </td>
         <td>

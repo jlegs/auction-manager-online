@@ -1,54 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div class="noPrint">
 {% if table %}
     TABLE: {{ table }}
 {% endif %}
 {% if form %}
+
 <form action="" method="post">
 {% csrf_token %}
     {{ form.table_assignment }}
 <input type="submit" value="Search for this table"/>
 </form>
+
 {% endif %}
+</div>
+
+
     {% for invoice in invoices %}
 
-    <table border="1px solid" class="page-break-before">
-
-        <tr>
-            <th>Invoice For</th>
-            <td>{{ invoice.attendee.first_name }} {{ invoice.attendee.last_name }}</td>
-        </tr>
-        <tr>
-            <th>Paid For By:</th>
-            <td>{{ invoice.paid_for_by }}</td>
-        </tr>
-        <tr>
-            <th>Total Invoice Amount</th>
-            <td>{{ invoice.total_amount}}</td>
-        </tr>
-        <tr>
-            <th>Invoice Date</th>
-            <td>{{ invoice.invoice_date }}</td>
-        </tr>
-        <tr>
-            <th>Paid?</th>
-            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
-        </tr>
-        <tr>
-            <th>Payment Type</th>
-            <td>{{ invoice.payment_type }}</td>
-        </tr>
-        <tr>
-            <th>Items</th>
-            <td>
-                {% for item in invoice.items.all %}
-                ${{ item.selling_price}} - {{ item }}<br/>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
+    {% include 'partials/invoice_display.html' with invoice=invoice %}
+    <div class="page-break"></div>
 {% endfor %}
 
 

@@ -4,7 +4,7 @@ from django.contrib.auth.views import login as django_login, logout as django_lo
 from manager.models.invoice import Invoice
 from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
-from manager.forms import AuctionItemForm, ItemSearchForm
+from manager.forms import AuctionItemForm, ItemSearchForm, YearForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from exceptions import AttributeError
@@ -72,9 +72,12 @@ def item_search(request):
     if request.POST:
         form = ItemSearchForm(request.POST)
         if form.is_valid():
-            item = AuctionItem.objects.get(id=form.cleaned_data['item_number'])
-            context['item'] = item
-            context['form'] = form
+            try:
+                item = AuctionItem.objects.get(item_number=form.cleaned_data['item_number'])
+                context['item'] = item
+                context['form'] = form
+            except Exception as e:
+                context['error'] = e
         else:
             return render(request, 'quction_item/item_search.html', context)
     else:
@@ -82,6 +85,37 @@ def item_search(request):
         context['form'] = form
 
     return render(request, 'auction_item/item_search.html', context)
+
+
+
+def unsold_item_list(request):
+    ''' Get a list of all unsold auction items for the current year's auction.
+    '''
+    items = AuctionItem.objects.filter(year=lambda: datetime.datetime.now().year, winning_bid_number__isnull=True)
+    context = {'auction_items': items,
+               }
+    return render(request, 'auction_item/item_list.html', context)
+
+def past_items(request):
+    ''' Get a list of all auction items for the a past year's auction.
+    '''
+    context = {}
+    if request.POST:
+        form = YearForm(request.POST)
+        if form.is_valid():
+            items = AuctionItem.objects.filter(year=form.cleaned_data['year'])
+            context['auction_items'] = items
+            context['year'] = form.cleaned_data['year']
+        else:
+            context['errors'] = form.errors
+            context['form'] = form
+        return render(request, 'auction_item/item_list.html', context)
+    else:
+        form = YearForm()
+        context['form'] = form
+    return render(request, 'auction_item/item_list.html', context)
+
+
 
 
 

@@ -5,6 +5,15 @@
 {% if table %}
     TABLE: {{ table }}
 {% endif %}
+    <a href="#" id="print">Print this page!</a>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+$('#print').click(function () {
+  $('.body-container').removeClass('body-container');
+  window.print();
+  return false;})</script>
+
 {% if form %}
 
 <form action="" method="post">

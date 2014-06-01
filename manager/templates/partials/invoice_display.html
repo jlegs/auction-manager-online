@@ -44,7 +44,7 @@
         </div>
 
         <div class="item-description">
-            {{ item }}
+            <a href="{% url 'item_info' item.id %}" style="color: black">{{ item.description }}</a>
         </div>
 
         <div class="item-price">

@@ -3,6 +3,9 @@
 	text-align: center;
 }
 
+.noPrint {
+    display: none;
+}
 
 .centered_list {
 	margin: 0 auto;
@@ -97,10 +100,6 @@ body {
     width: 15%;
 }
 
-
-.centered-text {
-    text-align: center;
-}
 
 .item-list-header{
     border-bottom: 1px solid black;

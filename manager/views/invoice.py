@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as django_login, logout as django_logout
 from manager.models.auction_item import AuctionItem
 from manager.models.attendee import Attendee
-from manager.models.invoice import Invoice
+from manager.models.invoice import Invoice, MergedInvoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm, TableMergeForm
+from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm, TableMergeForm, YearForm
 import datetime
 from django.contrib import messages
 from collections import OrderedDict
@@ -158,6 +158,30 @@ def merge_invoices(request):
 
 
 
+def merged_invoice(request, id):
+    invoice = MergedInvoice.objects.get(id=id)
+    context = {'invoice': invoice}
+    return render(request, 'invoice/merged_invoice.html', context)
+
+
+def past_invoices(request):
+    ''' Get a list of all auction items for the a past year's auction.
+    '''
+    context = {}
+    if request.POST:
+        form = YearForm(request.POST)
+        if form.is_valid():
+            invoices = Invoice.objects.filter(year=form.cleaned_data['year'])
+            context['invoices'] = invoices
+            context['year'] = form.cleaned_data['year']
+        else:
+            context['errors'] = form.errors
+            context['form'] = form
+        return render(request, 'invoice/invoice_list.html', context)
+    else:
+        form = YearForm()
+        context['form'] = form
+    return render(request, 'invoice/invoice_list.html', context)
 
 
 

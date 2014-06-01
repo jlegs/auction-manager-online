@@ -49,8 +49,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <a href="{% url 'past_attendees' %}">View Past Guests</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'unsold_items' %}">View Unsold Items</a>
+                    </td>
                     <td>
                         <a href="{% url 'bidder_invoice' %}">Search for Single Invoice</a>
                     </td>
@@ -58,7 +62,9 @@
                 <tr>
                     <td>
                     </td>
-                    <td></td>
+                    <td>
+                        <a href="{% url 'past_items' %}">View Past Items</a>
+                    </td>
                     <td>
                         <a href="{% url 'merge_invoices' %}">Merge Two Invoices</a>
                     </td>
@@ -78,7 +84,16 @@
                     </td>
                     <td></td>
                     <td>
-                        <a href="{% url 'merge_invoices' %}">View Single Merged I</a>
+                        <a href="{% url 'merge_invoices' %}">Search Merged Invoice</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    </td>
+                    <td></td>
+                    <td>
+                        <a href="{% url 'past_invoices' %}">Past Invoice</a>
                     </td>
                 </tr>
 

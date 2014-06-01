@@ -44,6 +44,8 @@ class TableSelectForm(forms.Form):
 class ItemSearchForm(forms.Form):
     item_number = forms.IntegerField()
 
+class YearForm(forms.Form):
+    year = forms.IntegerField()
 
 
 queryset = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url('^attendee/update/(\d+)$', 'manager.views.attendee.update', name='update_attendee'),
     url('^attendee/all$', 'manager.views.attendee.list', name='attendee_list'),
     url('^attendee/delete/(\d+)$', 'manager.views.attendee.delete', name='delete_attendee'),
-
+    url('^past-attendees$', 'manager.views.attendee.past_attendees', name='past_attendees'),
 
     url('^item/add/$', 'manager.views.auction_item.create', name='add_item'),
     url('^item/(\d+)$', 'manager.views.auction_item.info', name='item_info'),
@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url('^item/all$', 'manager.views.auction_item.list', name='item_list'),
     url('^item/delete/(\d+)$', 'manager.views.auction_item.delete', name='delete_item'),
     url('^item/search/$', 'manager.views.auction_item.item_search', name='item_search'),
+    url('^item/unsold/all$', 'manager.views.auction_item.unsold_item_list', name='unsold_items'),
+    url('^past-items$', 'manager.views.auction_item.past_items', name='past_items'),
 
     url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
     url('^invoice/(\d+)$', 'manager.views.invoice.info', name='invoice_info'),
@@ -31,7 +33,8 @@ urlpatterns = patterns('',
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
     url('^invoice/merge/$', 'manager.views.invoice.merge_invoices', name='merge_invoices'),
-
+    url('^merged_invoice/(\d+)$', 'manager.views.invoice.merged_invoice', name='merged_invoice'),
+    url('^past-invoices$', 'manager.views.invoice.past_invoices', name='past_invoices'),
 
     url('^attendee/table/all$', 'manager.views.attendee.table_list', name='table_list'),
     url('^attendee/table/detail$', 'manager.views.attendee.table_attendee_detail', name='table_attendee_detail'),

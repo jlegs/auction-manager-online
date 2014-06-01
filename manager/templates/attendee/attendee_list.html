@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% if form %}
+<div class="centered-text">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Get Attendees" id="submit">
+    </form>
+</div>
+{% endif %}
+
+
+{% if year %}
+    <div class="centered-text">
+        <h2>Attendees for {{ year }}</h2>
+    </div>
+{% endif %}
+
+
+
 <table border="1px solid" class="centered_list">
     <tr>
         <th>Record Id</th>

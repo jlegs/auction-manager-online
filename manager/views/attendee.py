@@ -4,7 +4,7 @@ from django.contrib.auth.views import login as django_login, logout as django_lo
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import AttendeeForm, TableSelectForm
+from manager.forms import AttendeeForm, TableSelectForm, YearForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -127,4 +127,25 @@ def table_attendee_detail(request):
         form = TableSelectForm(CHOICES=choices)
         context = {'form': form}
     return render(request, 'attendee/table_detail_list.html', context)
+
+
+
+def past_attendees(request):
+    ''' Get a list of all auction items for the a past year's auction.
+    '''
+    context = {}
+    if request.POST:
+        form = YearForm(request.POST)
+        if form.is_valid():
+            attendees = Attendee.objects.filter(year=form.cleaned_data['year'])
+            context['attendees'] = attendees
+            context['year'] = form.cleaned_data['year']
+        else:
+            context['errors'] = form.errors
+            context['form'] = form
+        return render(request, 'attendee/attendee_list.html', context)
+    else:
+        form = YearForm()
+        context['form'] = form
+    return render(request, 'attendee/attendee_list.html', context)
 

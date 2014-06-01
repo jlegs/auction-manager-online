@@ -35,8 +35,100 @@ body {
     padding-bottom: 10px;
 }
 
+.invoice-body {
+    clear:both;
+    margin: 0 10 0 10;
+    }
+
+.invoice-header {
+    height: 5%;
+    padding-right: 10%;
+}
+
+.logo {
+    float: left;
+}
+
+.invoice-date {
+    float: right;
+}
+
+.invoice-number {
+    text-align: center;
+}
+
+.bidder-info {
+    text-align: center;
+}
 
 
+.item-number-header{
+    padding-left: 5%;
+    float: left;
+    width: 10%;
+    font-weight: bold;
+}
+
+.item-description-header{
+    float: left;
+    width: 55%;
+    font-weight: bold;
+}
+
+.item-price-header{
+    float: left;
+    width: 15%;
+    font-weight: bold;
+}
+
+.item-number{
+    padding-left: 5%;
+    float: left;
+    width: 10%;
+}
+
+.item-description{
+    float: left;
+    width: 55%;
+}
+
+.item-price{
+    float: left;
+    width: 15%;
+}
+
+
+.item-list-header{
+    border-bottom: 1px solid black;
+    overflow: hidden;
+    width:90%;
+
+}
+
+.item-list-container{
+    border-bottom: 1px solid black;
+    width:90%;
+}
+
+
+.invoice-total{
+    padding-left: 60%;
+    font-weight: bold;
+}
+
+.invoiced-to{
+    padding-left: 5%;
+}
+
+
+.payment-method{
+    padding-left: 5%;
+}
+
+.thank-you {
+    text-align: center;
+    font-weight: bold;
+}
 
 
 

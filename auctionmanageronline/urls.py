@@ -32,8 +32,12 @@ urlpatterns = patterns('',
     url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
+
     url('^invoice/merge/$', 'manager.views.invoice.merge_invoices', name='merge_invoices'),
-    url('^merged_invoice/(\d+)$', 'manager.views.invoice.merged_invoice', name='merged_invoice'),
+    url('^merged-invoice/(\d+)$', 'manager.views.invoice.merged_invoice', name='merged_invoice_info'),
+    url('^merged-invoice/update/(\d+)$', 'manager.views.invoice.update_merged_invoice', name='update_merged_invoice'),
+    url('^merged-invoice/all$', 'manager.views.invoice.merged_invoice_list', name='merged_invoice_list'),
+
     url('^past-invoices$', 'manager.views.invoice.past_invoices', name='past_invoices'),
 
     url('^attendee/table/all$', 'manager.views.attendee.table_list', name='table_list'),

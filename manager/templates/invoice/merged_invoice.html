@@ -2,27 +2,27 @@
 
 {% block content %}
 
-<div class="invoice-header">
+<div class="merged_invoice-header">
 <div class="logo">
     <img src="{{ STATIC_URL}}wcvlogo.png" />
 </div>
 
-<div class="invoice-date">
-    Annual Auction {{ invoice.year }}<br/>
-    {{ invoice.invoice_date }}
+<div class="merged_invoice-date">
+    Annual Auction {{ merged_invoice.year }}<br/>
+    {{ merged_invoice.invoice_date }}
 </div>
 </div>
 
 
-<div class="invoice-body">
-    <div class="invoice-number">
-        Invoice Number: {{ invoice.id }}
+<div class="merged_invoice-body">
+    <div class="merged_invoice-number">
+        merged_invoice Number: {{ merged_invoice.id }}
     </div>
-
+<!---
     <div class="bidder-info">
-        Bid Number: {{ invoice.attendee.bid_number }} ({{ invoice.attendee }})
+        Bid Number: {{ merged_invoice.attendee.bid_number }} ({{ merged_invoice.attendee }})
     </div>
-
+-->
     <div class="item-list-header">
         <div class="item-number-header">
             Item Number
@@ -36,42 +36,42 @@
     </div>
     <br/>
     <div class="item-list-container">
-        {% for item in invoice.items.all %}
+        {% for invoice in merged_invoice.invoices.all %}
+            {% for item in invoice.items.all %}
+                <div class="item-number">
+                    {{ item.item_number }}
+                </div>
 
-        <div class="item-number">
-            {{ item.item_number }}
-        </div>
+                <div class="item-description">
+                    {{ item }}
+                </div>
 
-        <div class="item-description">
-            {{ item }}
-        </div>
-
-        <div class="item-price">
-            {{ item.selling_price }}
-        </div>
-        <br/>
-
+                <div class="item-price">
+                    {{ item.selling_price }}
+                </div>
+                <br/>
+            {% endfor %}
         {% endfor %}
         <br/>
     </div>
 
-        <div class="invoice-total">
-            Invoice Total
-            ${{ invoice.total_amount }}
+        <div class="merged_invoice-total">
+            merged_invoice Total
+            ${{ merged_invoice.total_amount }}
         </div>
 
-
-        <div class="invoiced-to">
+<!---
+        <div class="merged_invoiced-to">
             Sold to:
-            {{ invoice.paid_for_by }}
+            {{ merged_invoice.paid_for_by }}
         </div>
 
         <br/><br/><br/>
 
         <div class="payment-method">
-            Payment Method:  {{ invoice.payment_type }}
+            Payment Method:  {{ merged_invoice.payment_type }}
         </div>
-
+-->
         <br/><br/><br/>
         <div class="thank-you">
             Thank you for supporting the Wildlife Center of Virginia!
@@ -83,52 +83,52 @@
 
 
 
-<form action="{% url 'update_invoice' invoice.id %}" method="get">
+<form action="{% url 'update_merged_invoice' merged_invoice.id %}" method="get">
     {% csrf_token %}
-    <input type="hidden" value="{{ invoice }}" name="invoice"/>
-    <input type="submit" value="Update Invoice" name="update_invoice" id="submit" />
+    <input type="hidden" value="{{ merged_invoice }}" name="merged_invoice"/>
+    <input type="submit" value="Update merged_invoice" name="update_merged_invoice" id="submit" />
 </form>
 
 
 <!---
     <table border="1px solid">
         <tr>
-            <th>Invoice For</th>
-            <td>{{ invoice.attendee }}</td>
+            <th>merged_invoice For</th>
+            <td>{{ merged_invoice.attendee }}</td>
         </tr>
         <tr>
             <th>Items</th>
             <td>
-                {% for item in invoice.items.all %}
+                {% for item in merged_invoice.items.all %}
                     {{ item }}<br/>
                 {% endfor %}
             </td>
         </tr>
         <tr>
             <th>Paid For By:</th>
-            <td>{{ invoice.paid_for_by }}</td>
+            <td>{{ merged_invoice.paid_for_by }}</td>
         </tr>
         <tr>
-            <th>Total Invoice Amount</th>
-            <td>{{ invoice.total_amount}}</td>
+            <th>Total merged_invoice Amount</th>
+            <td>{{ merged_invoice.total_amount}}</td>
         </tr>
         <tr>
-            <th>Invoice Date</th>
-            <td>{{ invoice.invoice_date }}</td>
+            <th>merged_invoice Date</th>
+            <td>{{ merged_invoice.merged_invoice_date }}</td>
         </tr>
         <tr>
             <th>Paid?</th>
-            <td>{{ invoice.paid_for_by|yesno:"yes,no" }}</td>
+            <td>{{ merged_invoice.paid_for_by|yesno:"yes,no" }}</td>
         </tr>
         <tr>
             <th>Payment Type</th>
-            <td>{{ invoice.payment_type }}</td>
+            <td>{{ merged_invoice.payment_type }}</td>
         </tr>
     </table>
 -->
 
 
-{% if invoice.paid_for_by %}
+{% if merged_invoice.paid_for_by %}
     <img src="{{ STATIC_URL }}jTxEbrB8c.png" height="150" width="150"/>
 {% endif %}
 

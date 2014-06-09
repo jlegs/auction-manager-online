@@ -37,7 +37,7 @@ def change_password(request):
         password_change_form=ChangePasswordForm
     )
 
-
+@login_required
 def reset_password(request):
     result = django_auth_views.password_reset(
         request,
@@ -47,7 +47,7 @@ def reset_password(request):
     )
     return result
 
-
+@login_required
 def reset_password_done(request):
     result = django_auth_views.password_reset_done(
         request,
@@ -55,7 +55,7 @@ def reset_password_done(request):
     )
     return result
 
-
+@login_required
 def reset_password_confirm(request, uidb64=None, token=None):
     result = django_auth_views.password_reset_confirm(
         request,
@@ -66,7 +66,7 @@ def reset_password_confirm(request, uidb64=None, token=None):
     )
     return result
 
-
+@login_required
 def reset_password_complete(request):
     result = django_auth_views.password_reset_complete(
         request,

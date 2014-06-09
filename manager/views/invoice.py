@@ -92,6 +92,7 @@ def list(request):
                }
     return render(request, 'invoice/invoice_list.html', context)
 
+@login_required
 def confirm_delete(request, id):
     return redirect('home')
 
@@ -149,11 +150,11 @@ def merge_invoices(request):
         form = TableMergeForm(request.POST)
         if form.is_valid():
             invoices = form.cleaned_data['invoices']
-            new_invoice = Invoice()
+            new_invoice = MergedInvoice()
+            new_invoice.save()
             for invoice in invoices:
-                for item in invoice.items.all():
-                    new_invoice.items.add(item)
-                    new_invoice.save()
+                new_invoice.invoices.add(invoice)
+
             context = {'form': form,
                        'new_invoice': new_invoice,
             }
@@ -164,6 +165,62 @@ def merge_invoices(request):
         form = TableMergeForm()
         context = {'form': form}
     return render(request, 'invoice/merge.html', context)
+
+
+@login_required
+def delete_merged_invoice(request, id):
+    merged_invoice = get_object_or_404(MergedInvoice, id=id)
+    if merged_invoice.invoices.all():
+        for invoice in merged_invoice.invoices.all():
+            merged_invoice.invoices.remove(invoice)
+            invoice.delete()
+        return redirect('merged_invoice_list')
+    return redirect('merged_invoice_list')
+
+
+
+@login_required
+def merged_invoice_list(request):
+    ''' Get a list of all auction items for the current year's auction.
+    '''
+    invoices = MergedInvoice.objects.filter(year=lambda: datetime.datetime.now().year)
+    context = {'invoices': invoices,
+               }
+    return render(request, 'invoice/merged_invoice_list.html', context)
+
+@login_required
+def update_merged_invoice(request, id):
+    ''' Updates an auction item record
+    '''
+    invoice = get_object_or_404(Invoice, id=id)
+
+    if request.POST:
+        form = InvoiceForm(request.POST, instance=invoice)
+        if form.is_valid():
+            if form.cleaned_data['items']:
+                item = AuctionItem.objects.get(id=form.cleaned_data['items'].id)
+                invoice.items.add(item)
+                messages.add_message(request, messages.SUCCESS, 'Item added to invoice.')
+            elif form.cleaned_data['remove_items']:
+                item = AuctionItem.objects.get(id=form.cleaned_data['remove_items'].id)
+                invoice.items.remove(item)
+                messages.add_message(request, messages.SUCCESS, 'Item removed from invoice.')
+            #invoice.set_total()
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
+            return redirect('invoice_list')
+        else:
+            messages.add_message(request, messages.WARNING, 'Something went wrong, likely some kind of form validation.')
+            return render(request, 'invoice/update.html', {'form': form})
+    else:
+        form = InvoiceForm(instance=invoice)
+        form.fields['remove_items'].queryset = AuctionItem.objects.filter(invoice=invoice)
+
+        context = {'invoice': invoice,
+                   'form': form,
+                   }
+
+    return render(request, 'invoice/update.html', context)
 
 
 

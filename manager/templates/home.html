@@ -40,9 +40,14 @@ Enter all the invoices you'd like to merge in this one field. In the form entry 
 <span class="bold">The original invoices will be left intact and you will stil be able to view them.</span> Internally, the merged invoice
 is little more than a list of all the "merged" invoices. That in effect means a Merged Invoice is a display of all the items from the individual invoices.
 <br/><br/>
-Deleting a Merged Invoice will essentially unmerge the individual invoices that make up the Merged Invoice. You can also manually remove invoices from a Merged Invoice. You can search merged invoices
-by
+Deleting a Merged Invoice will unmerge the individual invoices that make up the Merged Invoice, leaving those invoices in their original state. You can add merged invoices and delete them
+as much as you want without affecting the original invoices themselves. However, <span class="bold">Updating a merged invoice to be paid will update all invoices that
+have been included in the merged invoice to show that they have been paid, as well as who paid them.</span> If you then delete the merged invoice, the original invoices will still show that they have been paid.
+You can also manually remove invoices from a Merged Invoice. You can search merged invoices by
 
+
+<br/><br/>
+You cannot delete a regular invoice without first removing all the items from it.
 {% endblock %}
 
 

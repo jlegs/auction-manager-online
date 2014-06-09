@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.db import models
 import datetime
 
@@ -9,13 +8,36 @@ PAYMENT_CHOICES = (('cash', 'cash'),
                    )
 
 class Invoice(models.Model):
-    attendee = models.OneToOneField('Attendee', default=None, related_name='invoice', blank=True, null=True)
-    paid_for_by = models.ForeignKey('Attendee', default=None, related_name='invoices_paid', blank=True, null=True)
-#    total_amount = models.DecimalField(decimal_places=2, max_digits=30, default=Decimal('0.00'), blank=True, null=True)
-    invoice_date = models.DateField(default=lambda: datetime.datetime.now(), blank=True, null=True)
-    payment_type = models.CharField(max_length=50, choices=PAYMENT_CHOICES, blank=True, null=True)
-    year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
-    merged_invoice = models.ForeignKey('MergedInvoice', default=None, related_name="invoices", blank=True, null=True)
+    '''
+    This provides basic data for invoices. Add items to the invoice by
+    using invoice.items.add(item). Remove them using invoice.items.remove(item).
+    Deleting an invoice will delete items associated with it. This
+    is prevented in the view
+    '''
+    attendee = models.OneToOneField('Attendee',
+                                    default=None,
+                                    related_name='invoice',
+                                    blank=True,
+                                    null=True)
+    paid_for_by = models.ForeignKey('Attendee',
+                                    default=None,
+                                    related_name='invoices_paid',
+                                    blank=True,
+                                    null=True)
+    invoice_date = models.DateField(default=lambda: datetime.datetime.now(),
+                                    blank=True,
+                                    null=True)
+    payment_type = models.CharField(max_length=50,
+                                    choices=PAYMENT_CHOICES,
+                                    blank=True,
+                                    null=True)
+    year = models.IntegerField(default=lambda: datetime.datetime.now().year,
+                               editable=False)
+    merged_invoice = models.ForeignKey('MergedInvoice',
+                                       default=None,
+                                       related_name="invoices",
+                                       blank=True,
+                                       null=True)
 
 
     class Meta:
@@ -26,14 +48,23 @@ class Invoice(models.Model):
         return "Invoice for: %s" % self.attendee
 
     def add_item_value(self, item):
+        '''
+        legacy code
+        '''
         self.total_amount += item.selling_price
         self.save()
 
     def remove_item_value(self, item):
+        '''
+        legacy code
+        '''
         self.total_amount -= item.selling_price
         self.save()
 
     def set_total(self):
+        '''
+        legacy code -- used to set the total_amount attribute
+        '''
         self.total_amount = 0
         for item in self.items.all():
             if item.selling_price:
@@ -44,6 +75,10 @@ class Invoice(models.Model):
 
     @property
     def total_amount(self):
+        '''
+        Dynamically determines the invoice's total. Conveneient because you
+        don't need to set an attribute.
+        '''
         total = 0
         for item in self.items.all():
             if item.selling_price:
@@ -55,10 +90,25 @@ class Invoice(models.Model):
 
 
 class MergedInvoice(models.Model):
-    paid_for_by = models.ForeignKey('Attendee', default=None, related_name='merged_invoices_paid', blank=True, null=True)
-    invoice_date = models.DateField(default=lambda: datetime.datetime.now(), blank=True, null=True)
-    payment_type = models.CharField(max_length=50, choices=PAYMENT_CHOICES, blank=True, null=True)
-    year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
+    '''
+    Merged invoice -- combining invoices creates an instance of this class.
+    It will leave original invoices intact. Setting the paid_for_by and
+    payment_type attributes on this instance will set those attributes on the original
+    invoices as well. That's the only change allowable on invoices from merged invoices.
+    '''
+    paid_for_by = models.ForeignKey('Attendee', default=None,
+                                    related_name='merged_invoices_paid',
+                                    blank=True,
+                                    null=True)
+    invoice_date = models.DateField(default=lambda: datetime.datetime.now(),
+                                    blank=True,
+                                    null=True)
+    payment_type = models.CharField(max_length=50,
+                                    choices=PAYMENT_CHOICES,
+                                    blank=True,
+                                    null=True)
+    year = models.IntegerField(default=lambda: datetime.datetime.now().year,
+                               editable=False)
 
 
     class Meta:
@@ -70,6 +120,9 @@ class MergedInvoice(models.Model):
 
     @property
     def total_amount(self):
+        '''
+        get the amount owed for the invoice
+        '''
         total = 0
         for invoice in self.invoices.all():
             for item in invoice.items.all():
@@ -78,9 +131,5 @@ class MergedInvoice(models.Model):
                 else:
                     pass
         return total
-
-#    def save(self, *args, **kwargs):
-#        self.set_total()
-#        super(Invoice, self).save(*args, **kwargs) # Call the "real" save() method.
 
 

@@ -217,7 +217,7 @@ def merged_invoice_list(request):
 def update_merged_invoice(request, id):
     ''' Updates an auction item record
     '''
-    invoice = get_object_or_404(Invoice, id=id)
+    merged_invoice = get_object_or_404(MergedInvoice, id=id)
 
     if request.POST:
         form = InvoiceForm(request.POST, instance=invoice)
@@ -256,7 +256,7 @@ def merged_invoice(request, id):
     get the details of a merged invoice
     '''
     invoice = MergedInvoice.objects.get(id=id)
-    context = {'invoice': invoice}
+    context = {'merged_invoice': invoice}
     return render(request, 'invoice/merged_invoice.html', context)
 
 

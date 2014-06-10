@@ -1,6 +1,6 @@
 
 {% if invoice.merged_invoice %}
-    **** Note: This invoice has been merged with another invoice. View the merged invoices here: {% url 'merged_invoice' invoice.merged_invoice.id %} ****
+    **** Note: This invoice has been merged with another invoice. View the merged invoices here: {% url 'merged_invoice_info' invoice.merged_invoice_id %} ****
 {% endif %}
 
 <div class="invoice-header">

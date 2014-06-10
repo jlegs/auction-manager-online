@@ -2,7 +2,7 @@ import datetime
 from django import forms
 from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
-from manager.models.invoice import Invoice
+from manager.models.invoice import Invoice, MergedInvoice
 from django_select2 import *
 
 class AttendeeForm(forms.ModelForm):
@@ -46,6 +46,14 @@ class ItemSearchForm(forms.Form):
 
 class YearForm(forms.Form):
     year = forms.IntegerField()
+
+class MergedInvoiceEditForm(forms.ModelForm):
+    paid_for_by = forms.CharField(required=False)
+    payment_type = 'pi'
+
+    class Meta:
+        model = MergedInvoice
+        fields = ['paid_for_by', 'payment_type']
 
 
 queryset = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)

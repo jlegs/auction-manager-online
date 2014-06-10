@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice, MergedInvoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, TableMergeForm, YearForm
+from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, TableMergeForm, YearForm, MergedInvoiceEditForm
 import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -220,32 +220,23 @@ def update_merged_invoice(request, id):
     merged_invoice = get_object_or_404(MergedInvoice, id=id)
 
     if request.POST:
-        form = InvoiceForm(request.POST, instance=invoice)
+        form = MergedInvoiceEditForm(request.POST, instance=merged_invoice)
         if form.is_valid():
-            if form.cleaned_data['items']:
-                item = AuctionItem.objects.get(id=form.cleaned_data['items'].id)
-                invoice.items.add(item)
-                messages.add_message(request, messages.SUCCESS, 'Item added to invoice.')
-            elif form.cleaned_data['remove_items']:
-                item = AuctionItem.objects.get(id=form.cleaned_data['remove_items'].id)
-                invoice.items.remove(item)
-                messages.add_message(request, messages.SUCCESS, 'Item removed from invoice.')
-            #invoice.set_total()
+
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
-            return redirect('invoice_list')
+            return redirect('merged_invoice_list')
         else:
             messages.add_message(request, messages.WARNING, 'Something went wrong, likely some kind of form validation.')
-            return render(request, 'invoice/update.html', {'form': form})
+            return render(request, 'invoice/merged_invoice_update.html', {'form': form})
     else:
-        form = InvoiceForm(instance=invoice)
-        form.fields['remove_items'].queryset = AuctionItem.objects.filter(invoice=invoice)
+        form = MergedInvoiceEditForm(instance=merged_invoice)
 
-        context = {'invoice': invoice,
+        context = {'invoice': merged_invoice,
                    'form': form,
                    }
 
-    return render(request, 'invoice/update.html', context)
+    return render(request, 'invoice/merged_invoice_update.html', context)
 
 
 

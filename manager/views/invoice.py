@@ -169,16 +169,16 @@ def merge_invoices(request):
         if form.is_valid():
             merged_invoices = MergedInvoice.objects.filter(invoices__in=form.cleaned_data['invoices'])
             invoices = form.cleaned_data['invoices']
-            new_invoice = MergedInvoice()
-            new_invoice.save()
-            if not merged_invoices:
+            if not merged_invoices and len(invoices) > 1:
+                new_invoice = MergedInvoice()
+                new_invoice.save()
                 for invoice in invoices:
                     new_invoice.invoices.add(invoice)
                 context = {'form': form,
                            'new_invoice': new_invoice,
                 }
             else:
-                messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has laready been merged with another.')
+                messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has laready been merged with another, or you have not selected enough invoices to merge.')
                 context = {'form': form,
                            }
             return render(request, 'invoice/merge.html', context)
@@ -224,6 +224,7 @@ def update_merged_invoice(request, id):
         if form.is_valid():
 
             form.save()
+            merged_invoice.update_invoices()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
             return redirect('merged_invoice_list')
         else:

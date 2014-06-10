@@ -6,11 +6,15 @@
         type="text/javascript"></script>
 
 
+** Select all the invoices you'd like to merge using the field below. You can begin typing a name and your options
+should update according to what you've typed.<br/>
+You must have at least 2 invoices selected to create a merged invoice.
+When all the invoices are selected, click "Merge Invoices" ** <br/><br/>
 
 <form method="post" action="">
     {% csrf_token %}
 
-    Invoice A: {{ form.invoices }}<br/><br/>
+    Invoices: {{ form.invoices }}<br/><br/>
 
     <input id="submit" type="submit" value="Merge Invoices"/>
 </form>
@@ -19,7 +23,7 @@
 
 {% if new_invoice %}
 <p>
-    Merged invoice successfully created, containing the following invoices:<br/>
+    <a href="{% url 'merged_invoice_info' new_invoice.id %}">Merged invoice</a> successfully created, containing the following invoices:<br/>
     {% for invoice in new_invoice.invoices.all %}
         {{ invoice }}<br/>
     {% endfor %}

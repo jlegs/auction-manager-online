@@ -14,30 +14,12 @@ class Invoice(models.Model):
     Deleting an invoice will delete items associated with it. This
     is prevented in the view
     '''
-    attendee = models.OneToOneField('Attendee',
-                                    default=None,
-                                    related_name='invoice',
-                                    blank=True,
-                                    null=True)
-    paid_for_by = models.ForeignKey('Attendee',
-                                    default=None,
-                                    related_name='invoices_paid',
-                                    blank=True,
-                                    null=True)
-    invoice_date = models.DateField(default=lambda: datetime.datetime.now(),
-                                    blank=True,
-                                    null=True)
-    payment_type = models.CharField(max_length=50,
-                                    choices=PAYMENT_CHOICES,
-                                    blank=True,
-                                    null=True)
-    year = models.IntegerField(default=lambda: datetime.datetime.now().year,
-                               editable=False)
-    merged_invoice = models.ForeignKey('MergedInvoice',
-                                       default=None,
-                                       related_name="invoices",
-                                       blank=True,
-                                       null=True)
+    attendee = models.OneToOneField('Attendee', default=None, related_name='invoice', blank=True, null=True)
+    paid_for_by = models.ForeignKey('Attendee', default=None, related_name='invoices_paid', blank=True, null=True)
+    invoice_date = models.DateField(default=lambda: datetime.datetime.now(), blank=True, null=True)
+    payment_type = models.CharField(max_length=50, choices=PAYMENT_CHOICES, blank=True, null=True)
+    year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
+    merged_invoice = models.ForeignKey('MergedInvoice', default=None, related_name="invoices", blank=True, null=True)
 
 
     class Meta:
@@ -96,19 +78,10 @@ class MergedInvoice(models.Model):
     payment_type attributes on this instance will set those attributes on the original
     invoices as well. That's the only change allowable on invoices from merged invoices.
     '''
-    paid_for_by = models.ForeignKey('Attendee', default=None,
-                                    related_name='merged_invoices_paid',
-                                    blank=True,
-                                    null=True)
-    invoice_date = models.DateField(default=lambda: datetime.datetime.now(),
-                                    blank=True,
-                                    null=True)
-    payment_type = models.CharField(max_length=50,
-                                    choices=PAYMENT_CHOICES,
-                                    blank=True,
-                                    null=True)
-    year = models.IntegerField(default=lambda: datetime.datetime.now().year,
-                               editable=False)
+    paid_for_by = models.ForeignKey('Attendee', default=None, related_name='merged_invoices_paid', blank=True, null=True)
+    invoice_date = models.DateField(default=lambda: datetime.datetime.now(), blank=True, null=True)
+    payment_type = models.CharField(max_length=50, choices=PAYMENT_CHOICES, blank=True, null=True)
+    year = models.IntegerField(default=lambda: datetime.datetime.now().year, editable=False)
 
 
     class Meta:

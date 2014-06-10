@@ -34,12 +34,6 @@ class TableSelectForm(forms.Form):
         super(TableSelectForm, self).__init__(*args, **kwargs)
         self.fields['table_assignment'] = forms.ChoiceField(choices=choices)
 
-#    CHOICES = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.all()}
-
-#    table_assignment = forms.ChoiceField(choices=CHOICES.iteritems())
-#    class Meta:
-#        model = Invoice
-#        fields = []
 
 class ItemSearchForm(forms.Form):
     item_number = forms.IntegerField()
@@ -48,8 +42,6 @@ class YearForm(forms.Form):
     year = forms.IntegerField()
 
 class MergedInvoiceEditForm(forms.ModelForm):
-    paid_for_by = forms.CharField(required=False)
-    payment_type = 'pi'
 
     class Meta:
         model = MergedInvoice

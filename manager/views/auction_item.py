@@ -19,9 +19,14 @@ def create(request):
     if request.POST:
         form = AuctionItemForm(request.POST)
         if form.is_valid():
-            item = form.save()
-            messages.add_message(request, messages.SUCCESS, 'Auction Item created')
-            return redirect('item_list')
+            exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
+            if not exists:
+                item = form.save()
+                messages.add_message(request, messages.SUCCESS, 'Auction Item created')
+                return redirect('item_list')
+            else:
+                messages.add_message(request, messages.WARNING, 'Item with that number exists.')
+                return redirect('item_list')
         else:
             context = {'form': form}
             return render(request, 'auction_item/add.html', context)
@@ -30,7 +35,6 @@ def create(request):
         context = {'form': form,
                    }
         return render(request, 'auction_item/add.html', context)
-    return redirect('item_list')
 
 @login_required
 def update(request, id):
@@ -41,13 +45,15 @@ def update(request, id):
     if request.POST:
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
-            if form.cleaned_data['winning_bid_number']:
+            exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
+            if form.cleaned_data['winning_bid_number'] and not exists:
                 invoice = Invoice.objects.get(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)
                 form.save()
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
             return redirect('item_list')
         else:
+            messages.add_message(request, messages.WARNING, 'Something went wrong. Please check that the information entered is correct')
             return redirect('item_info', id)
     else:
         form = AuctionItemForm(instance=item)

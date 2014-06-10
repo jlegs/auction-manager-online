@@ -23,14 +23,12 @@
 
 <table border="1px solid" class="centered_list">
     <tr>
-        <th>Record Id</th>
         <th>Name</th>
         <th>Table Assignment</th>
         <th>Bid Number</th>
     </tr>
 {% for attendee in attendees %}
     <tr>
-        <td>{{ attendee.id }}</td>
         <td>
             <a href="{% url 'attendee_info' attendee.id %}">{{ attendee.first_name }} {{ attendee.last_name }}</a><br/>
         </td>

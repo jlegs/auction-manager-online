@@ -22,6 +22,7 @@
 <table border="1px solid" class="centered_list">
     <tr>
         <th>Invoice ID</th>
+        <th>Merged Invoice</th>
         <th>Total Invoice Amount</th>
         <th>Item Record ID</th>
         <th>Invoice For</th>
@@ -34,6 +35,11 @@
     <tr>
         <td>
             {{ invoice.id }}
+        </td>
+        <td>
+            {% if invoice.merged_invoice %}
+                <a href="{% url 'merged_invoice_info' invoice.merged_invoice_id %}">{{ invoice.merged_invoice }}</a>
+            {% endif %}
         </td>
         <td>
             <a href="{% url 'invoice_info' invoice.id %}">{{ invoice.total_amount }}</a>

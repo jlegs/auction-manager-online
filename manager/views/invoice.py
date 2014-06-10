@@ -1,14 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login as django_login, logout as django_logout
-from manager.models.auction_item import AuctionItem
 from manager.models.attendee import Attendee
 from manager.models.invoice import Invoice, MergedInvoice
 from manager.models.auction_item import AuctionItem
-from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, AttendeeForm, TableMergeForm, YearForm
+from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, TableMergeForm, YearForm
 import datetime
 from django.contrib import messages
-from collections import OrderedDict
 from django.contrib.auth.decorators import login_required
 
 
@@ -38,7 +35,7 @@ def create(request):
 
 @login_required
 def update(request, id):
-    ''' Updates an auction item record
+    ''' Updates an invoice record
     '''
     invoice = get_object_or_404(Invoice, id=id)
 
@@ -48,17 +45,20 @@ def update(request, id):
             if form.cleaned_data['items']:
                 item = AuctionItem.objects.get(id=form.cleaned_data['items'].id)
                 invoice.items.add(item)
-                messages.add_message(request, messages.SUCCESS, 'Item added to invoice.')
+                messages.add_message(request,
+                                     messages.SUCCESS, 'Item added to invoice.')
             elif form.cleaned_data['remove_items']:
-                item = AuctionItem.objects.get(id=form.cleaned_data['remove_items'].id)
+                item = AuctionItem.objects.get(
+                    id=form.cleaned_data['remove_items'].id)
                 invoice.items.remove(item)
-                messages.add_message(request, messages.SUCCESS, 'Item removed from invoice.')
-            #invoice.set_total()
+                messages.add_message(request,
+                                     messages.SUCCESS, 'Item removed from invoice.')
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
             return redirect('invoice_list')
         else:
-            messages.add_message(request, messages.WARNING, 'Something went wrong, likely some kind of form validation.')
+            messages.add_message(request, messages.WARNING,
+                                 'Something went wrong, likely some kind of form validation.')
             return render(request, 'invoice/update.html', {'form': form})
     else:
         form = InvoiceForm(instance=invoice)
@@ -74,7 +74,8 @@ def update(request, id):
 
 @login_required
 def info(request, id):
-    ''' Deletes an invoice
+    '''
+    gets an invoices details
     '''
     invoice = get_object_or_404(Invoice, id=id)
     ## Call save() here because it will set the invoice total to the correct amount if it's wrong, which sometimes
@@ -99,6 +100,9 @@ def confirm_delete(request, id):
 
 @login_required
 def delete(request, id):
+    '''
+    deletes an invoice
+    '''
     invoice = get_object_or_404(Invoice, id=id)
     if invoice.items.all():
         messages.add_message(request, messages.WARNING, 'Unable to delete invoices that have items associated with '
@@ -111,24 +115,36 @@ def delete(request, id):
 
 @login_required
 def table_list(request):
-    invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
+    '''
+    get a list of invoices by table
+    '''
+    invoices = Invoice.objects.filter(
+        attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/invoice_list.html', context)
 
 @login_required
 def table_invoices_detail(request):
-    invoices = Invoice.objects.filter(attendee__isnull=False).order_by('attendee__table_assignment')
+    '''
+    get an invoice's details by table
+    '''
+    invoices = Invoice.objects.filter(
+        attendee__isnull=False).order_by('attendee__table_assignment')
     context = {'invoices': invoices}
     return render(request, 'invoice/table_invoices_detail.html', context)
 
 @login_required
 def table_invoice_detail(request):
+    '''
+    get whole invoices grouped by table
+    '''
     choices = set([(a.table_assignment, a.table_assignment) for a in Attendee.objects.filter(year=datetime.datetime.now().year)])
 
     if request.POST:
         form = TableSelectForm(request.POST, CHOICES=choices)
         if form.is_valid():
-            invoices = Invoice.objects.filter(attendee__isnull=False).filter(attendee__table_assignment=form.cleaned_data['table_assignment'])
+            invoices = Invoice.objects.filter(attendee__isnull=False).filter(
+                attendee__table_assignment=form.cleaned_data['table_assignment'])
             context = {'invoices': invoices,
                        'form': form,
                        'table': invoices[0].attendee.table_assignment,
@@ -137,7 +153,6 @@ def table_invoice_detail(request):
             return redirect('invoice_list')
     else:
         form = TableSelectForm(CHOICES=choices)
-#        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
         context = {'form': form}
     return render(request, 'invoice/table_invoice_detail.html', context)
 
@@ -146,18 +161,26 @@ def table_invoice_detail(request):
 
 @login_required
 def merge_invoices(request):
+    '''
+    create a merged invoice containing two or more regular invoices
+    '''
     if request.POST:
         form = TableMergeForm(request.POST)
         if form.is_valid():
+            merged_invoices = MergedInvoice.objects.filter(invoices__in=form.cleaned_data['invoices'])
             invoices = form.cleaned_data['invoices']
             new_invoice = MergedInvoice()
             new_invoice.save()
-            for invoice in invoices:
-                new_invoice.invoices.add(invoice)
-
-            context = {'form': form,
-                       'new_invoice': new_invoice,
-            }
+            if not merged_invoices:
+                for invoice in invoices:
+                    new_invoice.invoices.add(invoice)
+                context = {'form': form,
+                           'new_invoice': new_invoice,
+                }
+            else:
+                messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has laready been merged with another.')
+                context = {'form': form,
+                           }
             return render(request, 'invoice/merge.html', context)
         else:
             return redirect('merge_invoices')
@@ -169,12 +192,14 @@ def merge_invoices(request):
 
 @login_required
 def delete_merged_invoice(request, id):
+    '''
+    delete a merged invoice
+    '''
     merged_invoice = get_object_or_404(MergedInvoice, id=id)
     if merged_invoice.invoices.all():
         for invoice in merged_invoice.invoices.all():
             merged_invoice.invoices.remove(invoice)
-            invoice.delete()
-        return redirect('merged_invoice_list')
+    merged_invoice.delete()
     return redirect('merged_invoice_list')
 
 
@@ -183,8 +208,8 @@ def delete_merged_invoice(request, id):
 def merged_invoice_list(request):
     ''' Get a list of all auction items for the current year's auction.
     '''
-    invoices = MergedInvoice.objects.filter(year=lambda: datetime.datetime.now().year)
-    context = {'invoices': invoices,
+    merged_invoices = MergedInvoice.objects.filter(year=lambda: datetime.datetime.now().year)
+    context = {'merged_invoices': merged_invoices,
                }
     return render(request, 'invoice/merged_invoice_list.html', context)
 
@@ -227,6 +252,9 @@ def update_merged_invoice(request, id):
 
 @login_required
 def merged_invoice(request, id):
+    '''
+    get the details of a merged invoice
+    '''
     invoice = MergedInvoice.objects.get(id=id)
     context = {'invoice': invoice}
     return render(request, 'invoice/merged_invoice.html', context)
@@ -244,7 +272,8 @@ def past_invoices(request):
             context['invoices'] = invoices
             context['year'] = form.cleaned_data['year']
         else:
-            context['errors'] = form.errors
+            context['' \
+                    'errors'] = form.errors
             context['form'] = form
         return render(request, 'invoice/invoice_list.html', context)
     else:
@@ -256,6 +285,9 @@ def past_invoices(request):
 
 @login_required
 def bidder_invoice(request):
+    '''
+    search for invoice by bidder name or number
+    '''
     context = {}
     if request.POST:
         form = BidderInvoiceForm(request.POST)
@@ -280,7 +312,6 @@ def bidder_invoice(request):
         return render(request, 'invoice/bidder_invoice.html', context)
     else:
         form = BidderInvoiceForm()
-#        form.fields['table_assignment'].queryset = {attendee.table_assignment: attendee.table_assignment for attendee in Attendee.objects.filter(year=lambda: datetime.datetime.now().year)}
         context = {'form': form}
     return render(request, 'invoice/bidder_invoice.html', context)
 

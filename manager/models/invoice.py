@@ -118,6 +118,17 @@ class MergedInvoice(models.Model):
     def __unicode__(self):
         return "Merged Invoice"
 
+    def update_invoices(self):
+        '''
+        Updates the paid_for_by and payment_type attributes on
+        each invoice in the merged invoices' invoices.
+        '''
+        invoices = self.invoices.all()
+        for invoice in invoices:
+            invoice.paid_for_by = self.paid_for_by
+            invoice.payment_type = self.payment_type
+            invoice.save()
+
     @property
     def total_amount(self):
         '''

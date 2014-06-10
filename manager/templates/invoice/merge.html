@@ -21,7 +21,13 @@ Invoice A: {{ form.invoices }}<br/><br/>
 
 {% if new_invoice %}
 <p>
-    {{ new_invoice }}
+    {% for invoice in new_invoice.invoices.all %}
+        {{ invoice }}<br/>
+        {% for item in invoice.items.all %}
+            {{ item }}<br/>
+        {% endfor %}
+        <br/>
+    {% endfor %}
 </p>
 {% endif %}
 

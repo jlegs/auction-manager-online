@@ -21,52 +21,44 @@
 
 <table border="1px solid" class="centered_list">
     <tr>
-        <th>Invoice ID</th>
+        <th>Merged Invoice ID</th>
         <th>Total Invoice Amount</th>
-        <th>Item Record ID</th>
-        <th>Invoice For</th>
+        <th>Invoices</th>
         <th>Paid For By</th>
         <th>Invoice Date</th>
         <th>Paid?</th>
         <th>Payment Type</th>
     </tr>
-{% for invoice in invoices %}
+{% for merged_invoice in merged_invoices %}
     <tr>
         <td>
-            {{ invoice.id }}
+            {{ merged_invoice.id }}
         </td>
         <td>
-            <a href="{% url 'merged_invoice_info' invoice.id %}">{{ invoice.total_amount }}</a>
+            <a href="{% url 'merged_invoice_info' merged_invoice.id %}">{{ merged_invoice.total_amount }}</a>
         </td>
         <td>
-            {% for item in invoice.items.all %}
-                <a href="{% url 'item_info' item.id %}">{{ item.item_number }}</a><br/>
-                ({{ item.description }})<br/>
+            {% for invoice in merged_invoice.invoices.all %}
+                <a href="{% url 'invoice_info' invoice.id %}">{{ invoice }}</a><br/>
             {% endfor %}
         </td>
         <td>
-            {% if invoice.attendee %}
-            <a href="{% url 'attendee_info' invoice.attendee.id %}">{{ invoice.attendee.first_name }} {{ invoice.attendee.last_name }}</a><br/>
-            (Bidder No. {{ invoice.attendee.bid_number }})
-            {% endif %}
+            {{ merged_invoice.paid_for_by}}
         </td>
         <td>
-            {{ invoice.paid_for_by}}
+            {{ merged_invoice.invoice_date }}
         </td>
         <td>
-            {{ invoice.invoice_date }}
+            {{ merged_invoice.paid_for_by|yesno:"yes,no" }}
         </td>
         <td>
-            {{ invoice.paid_for_by|yesno:"yes,no" }}
+            {{ merged_invoice.payment_type }}
         </td>
         <td>
-            {{ invoice.payment_type }}
+            <a href="{% url 'update_merged_invoice' merged_invoice.id %}"><button type="button" id="submit">Update Invoice</button></a>
         </td>
         <td>
-            <a href="{% url 'update_invoice' invoice.id %}"><button type="button" id="submit">Update Invoice</button></a>
-        </td>
-        <td>
-            <a href="{% url 'delete_invoice' invoice.id %}"><button type="button" id="submit">delete</button></a>
+            <a href="{% url 'delete_merged_invoice' merged_invoice.id %}"><button type="button" id="submit">delete</button></a>
         </td>
     </tr>
 {% endfor %}

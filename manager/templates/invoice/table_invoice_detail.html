@@ -19,7 +19,7 @@ $('#print').click(function () {
 <form action="" method="post">
 {% csrf_token %}
     {{ form.table_assignment }}
-<input type="submit" value="Search for this table"/>
+<input type="submit" value="Search for this table" id="submit"/>
 </form>
 
 {% endif %}

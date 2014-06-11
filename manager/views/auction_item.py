@@ -46,7 +46,13 @@ def update(request, id):
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
             exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
-            if form.cleaned_data['winning_bid_number'] and not exists:
+            if not exists and form.cleaned_data['item_number']:
+                item.item_number = form.cleaned_data['item_number']
+                item.save()
+            elif exists and form.cleaned_data['item_number']:
+                messages.add_message(request, messages.WARNING, 'That item number already exists.')
+                redirect('item_list')
+            if form.cleaned_data['winning_bid_number']:
                 invoice = Invoice.objects.get(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)
                 form.save()

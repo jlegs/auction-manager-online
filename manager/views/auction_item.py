@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login as django_login, logout as django_logout
 from manager.models.invoice import Invoice
 from manager.models.attendee import Attendee
 from manager.models.auction_item import AuctionItem
 from manager.forms import AuctionItemForm, ItemSearchForm, YearForm
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from exceptions import AttributeError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 

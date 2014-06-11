@@ -15,13 +15,13 @@ $('#print').click(function () {
   return false;})</script>
 
 {% if form %}
-
-<form action="" method="post">
-{% csrf_token %}
-    {{ form.table_assignment }}
-<input type="submit" value="Search for this table" id="submit"/>
-</form>
-
+    <div class="noPrint">
+        <form action="" method="post">
+            {% csrf_token %}
+                {{ form.table_assignment }}
+            <input type="submit" value="Search for this table" id="submit"/>
+        </form>
+    </div>
 {% endif %}
 </div>
 

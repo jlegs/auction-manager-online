@@ -1,7 +1,8 @@
-
-{% if invoice.merged_invoice %}
-    **** Note: This invoice has been merged with another invoice. View the merged invoices <a href="{% url 'merged_invoice_info' invoice.merged_invoice_id %}">here</a> ****
-{% endif %}
+<div class="noPrint">
+    {% if invoice.merged_invoice %}
+        **** Note: This invoice has been merged with another invoice. View the merged invoices <a href="{% url 'merged_invoice_info' invoice.merged_invoice_id %}">here</a> ****
+    {% endif %}
+</div>
 
 <div class="invoice-header">
 <div class="logo">

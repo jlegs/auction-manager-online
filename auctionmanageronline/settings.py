@@ -63,8 +63,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'auctionmanager',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'wildlife',
+        'PASSWORD': 'wildlife',
         'HOST': 'localhost',
         }
 }
@@ -87,6 +87,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/josh/code/auction-manager-online'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 LOGIN_URL = '/login/'
 

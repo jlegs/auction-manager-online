@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'django_select2',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (

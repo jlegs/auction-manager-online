@@ -123,15 +123,6 @@ def table_list(request):
     context = {'invoices': invoices}
     return render(request, 'invoice/invoice_list.html', context)
 
-@login_required
-def table_invoices_detail(request):
-    '''
-    get an invoice's details by table
-    '''
-    invoices = Invoice.objects.filter(
-        attendee__isnull=False).order_by('attendee__table_assignment')
-    context = {'invoices': invoices}
-    return render(request, 'invoice/table_invoices_detail.html', context)
 
 @login_required
 def table_invoice_detail(request):
@@ -144,11 +135,13 @@ def table_invoice_detail(request):
         form = TableSelectForm(request.POST, CHOICES=choices)
         if form.is_valid():
             invoices = Invoice.objects.filter(attendee__isnull=False).filter(
-                attendee__table_assignment=form.cleaned_data['table_assignment'])
+                attendee__table_assignment=form.cleaned_data['table_assignment']).filter(items__isnull=False)
             context = {'invoices': invoices,
                        'form': form,
-                       'table': invoices[0].attendee.table_assignment,
+                       'table': form.cleaned_data['table_assignment'],
                        }
+            if not invoices:
+                messages.add_message(request, messages.INFO, 'No bidders at this table have invoices that need to be billed.')
         else:
             return redirect('invoice_list')
     else:

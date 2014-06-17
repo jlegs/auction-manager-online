@@ -46,6 +46,7 @@ urlpatterns = patterns('',
     url('^invoice/table/list/all$', 'manager.views.invoice.table_list', name='table_invoices'),
     url('^invoice/table/detail/$', 'manager.views.invoice.table_invoice_detail', name='table_invoice_detail'),
     url('^invoice/bidder/$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
+    url('^invoice/unpaid/$', 'manager.views.invoice.unpaid_invoices', name='unpaid_invoices'),
 
 
     url(r'^select2/', include('django_select2.urls')),

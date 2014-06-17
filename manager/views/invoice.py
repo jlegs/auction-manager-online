@@ -125,6 +125,18 @@ def table_list(request):
 
 
 @login_required
+def unpaid_invoices(request):
+    '''
+    get a list of unpaid invoices
+    '''
+    invoices = Invoice.objects.filter(
+        attendee__isnull=False).filter(paid_for_by__isnull=True)
+    context = {'invoices': invoices}
+    return render(request, 'invoice/invoice_list.html', context)
+
+
+
+@login_required
 def table_invoice_detail(request):
     '''
     get whole invoices grouped by table

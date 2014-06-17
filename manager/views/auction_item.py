@@ -50,11 +50,13 @@ def update(request, id):
             elif exists and form.cleaned_data['item_number']:
                 messages.add_message(request, messages.WARNING, 'That item number already exists.')
                 redirect('item_list')
-            if form.cleaned_data['winning_bid_number']:
+            elif form.cleaned_data['winning_bid_number']:
                 invoice = Invoice.objects.get(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)
                 form.save()
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+            else:
+                return redirect('item_list')
             return redirect('item_list')
         else:
             messages.add_message(request, messages.WARNING, 'Something went wrong. Please check that the information entered is correct')

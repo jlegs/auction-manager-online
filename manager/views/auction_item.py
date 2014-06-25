@@ -44,6 +44,10 @@ def update(request, id):
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
             exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
+            if not exists and form.cleaned_data['item_number']:
+                item.item_number = form.cleaned_data['item_number']
+                item.save()
+                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
             if not exists and form.cleaned_data['winning_bid_number']:
                 invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)

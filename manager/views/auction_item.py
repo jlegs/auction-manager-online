@@ -44,19 +44,24 @@ def update(request, id):
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
             exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
-            if not exists and form.cleaned_data['item_number']:
-                item.item_number = form.cleaned_data['item_number']
-                item.save()
-            elif exists and form.cleaned_data['item_number']:
-                messages.add_message(request, messages.WARNING, 'That item number already exists.')
-                redirect('item_list')
-            elif form.cleaned_data['winning_bid_number']:
-                invoice = Invoice.objects.get(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+            if not exists and form.cleaned_data['winning_bid_number']:
+                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
                 invoice.items.add(item)
                 form.save()
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+                if created:
+                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
+            elif exists[0].id != item.id and form.cleaned_data['item_number']:
+                messages.add_message(request, messages.WARNING, 'That item number already exists.')
+                redirect('item_list')
+#            elif exists.id == item.id and form.cleaned_data['item_number']:
+#                item.item_number = form.cleaned_data['item_number']
+#                item.save()
+#            elif form.cleaned_data['winning_bid_number']:
             else:
-                return redirect('item_list')
+#                redirect('item_list')
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
             return redirect('item_list')
         else:
             messages.add_message(request, messages.WARNING, 'Something went wrong. Please check that the information entered is correct')

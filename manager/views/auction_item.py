@@ -51,13 +51,20 @@ def update(request, id):
                 messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
                 if created:
                     messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
-            elif exists[0].id != item.id and form.cleaned_data['item_number']:
+            elif exists[0].id != item.id:
                 messages.add_message(request, messages.WARNING, 'That item number already exists.')
                 redirect('item_list')
 #            elif exists.id == item.id and form.cleaned_data['item_number']:
 #                item.item_number = form.cleaned_data['item_number']
 #                item.save()
 #            elif form.cleaned_data['winning_bid_number']:
+            elif exists[0].id == item.id and form.cleaned_data['winning_bid_number']:
+                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+                invoice.items.add(item)
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+                if created:
+                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
             else:
 #                redirect('item_list')
                 form.save()

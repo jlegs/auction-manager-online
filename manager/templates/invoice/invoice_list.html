@@ -69,10 +69,10 @@
             {{ invoice.payment_type }}
         </td>
         <td>
-            <a href="{% url 'update_invoice' invoice.id %}"><button type="button" id="submit">Update Invoice</button></a>
+            <a href="{% url 'update_invoice' invoice.id %}"><button type="button" id="submit">Update</button></a>
         </td>
         <td>
-            <a href="{% url 'delete_invoice' invoice.id %}"><button type="button" id="submit">delete</button></a>
+            <a href="{% url 'delete_invoice' invoice.id %}"><button type="button" id="submit">Delete</button></a>
         </td>
     </tr>
 {% endfor %}

@@ -90,7 +90,7 @@
 <form action="{% url 'update_invoice' invoice.id %}" method="get">
     {% csrf_token %}
     <input type="hidden" value="{{ invoice }}" name="invoice"/>
-    <input type="submit" value="Update Invoice" name="update_invoice" id="submit" />
+    <input type="submit" value="Update" name="update_invoice" id="submit" />
 </form>
 </div>
 

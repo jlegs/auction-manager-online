@@ -43,40 +43,35 @@ def update(request, id):
     if request.POST:
         form = AuctionItemForm(request.POST, instance=item)
         if form.is_valid():
-            exists = AuctionItem.objects.filter(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
-            if not exists and form.cleaned_data['item_number']:
-                item.item_number = form.cleaned_data['item_number']
+            item = AuctionItem.objects.get(id=id)
+            if form.cleaned_data['item_number'] != item.item_number:
+                try:
+                    exists = AuctionItem.objects.get(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
+                except ObjectDoesNotExist:
+                    exists = None
+                if exists:
+                    messages.add_message(request, messages.WARNING, 'Another item already has the number %i' % form.cleaned_data['item_number'])
+                else:
+                    item.item_number = form.cleaned_data['item_number']
+                    item.save()
+                    messages.add_message(request, messages.SUCCESS, 'Item Number successfully updated')
+            elif form.cleaned_data['winning_bid_number'] != item.winning_bid_number:
+                try:
+                    attendee = Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number'])
+                except ObjectDoesNotExist:
+                    messages.add_message(request, messages.WARNING, 'No attendee found with that bid number')
+                    return redirect('item_list')
+                invoice, created = Invoice.objects.get_or_create(attendee=attendee)
+                item.winning_bid_number = form.cleaned_data['winning_bid_number']
+                invoice.items.add(item)
+                messages.add_message(request, messages.SUCCESS, 'Winning bidder set for item %s' % item.description)
                 item.save()
-                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
-            elif not exists and form.cleaned_data['winning_bid_number']:
-                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
-                invoice.items.add(item)
-                form.save()
-                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
-                if created:
-                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
-            elif exists[0].id != item.id:
-                messages.add_message(request, messages.WARNING, 'That item number already exists.')
-                redirect('item_list')
-#            elif exists.id == item.id and form.cleaned_data['item_number']:
-#                item.item_number = form.cleaned_data['item_number']
-#                item.save()
-#            elif form.cleaned_data['winning_bid_number']:
-            elif exists[0].id == item.id and form.cleaned_data['winning_bid_number']:
-                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
-                invoice.items.add(item)
-                form.save()
-                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
-                if created:
-                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
             else:
-#                redirect('item_list')
                 form.save()
-                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
-            return redirect('item_list')
+                messages.add_message(request, messages.WARNING, 'Item %s updated' % form.cleaned_data['description'])
         else:
-            messages.add_message(request, messages.WARNING, 'Something went wrong. Please check that the information entered is correct')
-            return redirect('item_info', id)
+            messages.add_message(request, messages.WARNING, 'Something went wrong in the validation of the form. Please try again and ensure all the information is correct')
+        return redirect('item_list')
     else:
         form = AuctionItemForm(instance=item)
         context = {'auction_item': item,
@@ -173,4 +168,44 @@ def delete(request, id):
     item = AuctionItem.objects.get(id=id)
     item.delete()
     return redirect('item_list')
+
+
+#            if not exists and form.cleaned_data['item_number']:
+#                item.item_number = form.cleaned_data['item_number']
+#                item.save()
+#                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+#            elif not exists and form.cleaned_data['winning_bid_number']:
+#                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+#                invoice.items.add(item)
+#                form.save()
+#                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+#                if created:
+#                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
+#            elif exists[0].id != item.id:
+#                messages.add_message(request, messages.WARNING, 'That item number already exists.')
+#                redirect('item_list')
+#            elif exists.id == item.id and form.cleaned_data['item_number']:
+#                item.item_number = form.cleaned_data['item_number']
+#                item.save()
+#            elif form.cleaned_data['winning_bid_number']:
+#            elif exists[0].id == item.id and form.cleaned_data['winning_bid_number']:
+#                invoice, created = Invoice.objects.get_or_create(attendee=Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number']))
+#                invoice.items.add(item)
+#                form.save()
+#                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+#                if created:
+#                    messages.add_message(request, messages.WARNING, 'Invoice created for attendee because one did not already exist.')
+#            else:
+#                redirect('item_list')
+#                form.save()
+#                messages.add_message(request, messages.SUCCESS, 'Auction Item updated')
+#            return redirect('item_list')
+
+
+
+
+
+
+
+
 

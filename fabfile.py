@@ -3,6 +3,7 @@ from fabric.api import local, run, env
 
 env.hosts = ['ec2-54-82-112-202.compute-1.amazonaws.com']
 env.user = 'wildlife'
+env.forward_agent = True
 def test():
     local('./manage.py test')
 

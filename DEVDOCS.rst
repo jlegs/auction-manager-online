@@ -20,6 +20,9 @@ USE VISUDO FOR THIS
 
 USERNAME   ALL = (ALL) NOPASSWD:ALL
 
+add your public ssh key to the wildlife user's authorized_keys file so you can ssh in directly as that user
+
+
 sudo apt-get install git
 sudo apt-get install python-pip
 sudo apt-get install python-dev
@@ -76,4 +79,11 @@ gunicorn installed correctly by running """ gunicorn auctionmanager.wsgi:applica
 printed to the console, it's working. If it's not, something's not right.
 
 
+(wildlife)wildlife@wcv-auction:~/website/auction-manager-online$ echo_supervisord_conf > supervisord.conf
+
+Add the following entry to the supervisord.conf file
+
+[program:wildlife]
+command = /home/wildlife/.virtualenvs/wildlife/bin/gunicorn auctionmanageronline.wsgi:application
+user = wildlife
 

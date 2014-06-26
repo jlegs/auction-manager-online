@@ -38,7 +38,7 @@
         <td>
             {{ attendee.bid_number }}
         </td>
-        <td><div id="hi" class="confirm">
+        <td><div>
             <a href="{% url 'update_attendee' attendee.id %}"><button type="button" id="submit">Update</button></a>
             </div>
         </td>
@@ -50,15 +50,6 @@
 {% endfor %}
 </table>
 
-
-
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript" >
-  $('#hi').click(function() {
-    if (confirm('Are you sure?')) {
-      var url = $(this).attr('href');
-      $(this).load(url);
-    }
-  });
-</script>
+{% include 'partials/confirm-js.html' %}
 
 {% endblock %}

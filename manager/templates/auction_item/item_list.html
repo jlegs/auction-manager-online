@@ -44,12 +44,12 @@
         <td>{% if item.starting_value %}${{ item.starting_value }}{% else %}No Info{% endif %}</td>
         <td>{% if item.increment_amount %}${{ item.increment_amount }}{% else %}No Info{% endif %}</td>
         <td><a href="{% url 'update_item' item.id %}"><button type="button" id="submit" >Update</button></a></td>
-        <td><a href="{% url 'delete_item' item.id %}"><button type="button" id="submit" >Delete</button></a></td>
+        <td><div class="confirm"><a href="{% url 'delete_item' item.id %}"><button type="button" id="submit" >Delete</button></a></div></td>
     </tr>
 {% endfor %}
 
 
 </table>
 
-
+{% include 'partials/confirm-js.html' %}
 {% endblock %}

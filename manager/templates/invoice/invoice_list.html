@@ -72,9 +72,15 @@
             <a href="{% url 'update_invoice' invoice.id %}"><button type="button" id="submit">Update</button></a>
         </td>
         <td>
-            <a href="{% url 'delete_invoice' invoice.id %}"><button type="button" id="submit">Delete</button></a>
+            <div class="confirm">
+                <a href="{% url 'delete_invoice' invoice.id %}"><button type="button" id="submit">Delete</button></a>
+            </div>
         </td>
     </tr>
 {% endfor %}
 </table>
+
+
+{% include 'partials/confirm-js.html' %}
+
 {% endblock %}

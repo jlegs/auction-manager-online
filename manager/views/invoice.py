@@ -146,7 +146,7 @@ def table_invoice_detail(request):
     if request.POST:
         form = TableSelectForm(request.POST, CHOICES=choices)
         if form.is_valid():
-            invoices = Invoice.objects.filter(attendee__table_assignment='U').exclude(attendee__isnull=True, items__isnull=True)
+            invoices = Invoice.objects.filter(attendee__table_assignment=form.cleaned_data['table_assignment']).exclude(attendee__isnull=True, items__isnull=True)
             context = {'invoices': invoices,
                        'form': form,
                        'table': form.cleaned_data['table_assignment'],

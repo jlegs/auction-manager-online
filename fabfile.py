@@ -12,6 +12,12 @@ def test():
 def remote_in():
     local('ssh wildlife@ec2-54-82-112-202.compute-1.amazonaws.com')
 
+def django_shell():
+    '''
+    Enters the django shell on the server for debugging or testing
+    '''
+    run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && ./manage.py shell_plus')
+
 
 def gunicorn(arg):
     '''

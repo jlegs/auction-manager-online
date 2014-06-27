@@ -93,9 +93,6 @@ def list(request):
                }
     return render(request, 'invoice/invoice_list.html', context)
 
-@login_required
-def confirm_delete(request, id):
-    return redirect('home')
 
 
 @login_required

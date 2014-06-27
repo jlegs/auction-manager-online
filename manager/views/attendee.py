@@ -94,12 +94,6 @@ def list(request):
                }
     return render(request, 'attendee/attendee_list.html', context)
 
-@login_required
-def confirm_delete(request, id):
-    ''' does nothing right now
-    '''
-    return redirect('home')
-
 
 @login_required
 def delete(request, id):

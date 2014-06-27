@@ -108,3 +108,4 @@ That will reload your bash profile and you should be able to run django locally 
 I might change the environment variable to follow something along what this guy suggests:
 http://bruno.im/2013/may/18/django-stop-writing-settings-files/
 
+

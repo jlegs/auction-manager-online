@@ -34,9 +34,9 @@ Current features:
 * Confirm delete
 
 
-.. image:: auction.png
-.. image:: auction2.png
-.. image:: auction3.png
+.. image:: auctionsample1.png
+.. image:: auctionsample2.png
+.. image:: auctionsample3.png
 
 
 Setup

@@ -1,9 +1,9 @@
 Auction Manager Online
 ===============
 
-For any nontechnical readers who got here through some sort of search for 'auction manager', this web app is currently under development and not ready for deployment.
-
-The application aims to help nonprofits manage auction fundraisers, which often constitute a large portion of their annual funding.
+This application aims to help the nonprofit Wildlife Center of Virginia to manage its auction fundraisers, which often constitute a large portion of their annual funding.
+The application's license is the MIT license. The only thing that is very specific to the Wildlife Center is the logo displayed on the pages. This means
+that if you'd like to fork this repo for some other auction fundraiser, you're free to do so, and altering it to your needs shouldn't be terribly difficult.
 
 Current features:
 
@@ -13,7 +13,7 @@ Current features:
 
 * Add invoices (in case you need to just create a new invoice for a guest)
 
-* Merge multiple invoices into one
+* Merge multiple invoices into one (in case two guests want to pay together)
 
 * View Guest list (or view the guest list per table)
 
@@ -23,10 +23,15 @@ Current features:
 
 * View Item list
 
-Future features:
-
 * View past year's guests, items and invoices
 
+* View/print invoices by table
+
+* View unpaid invoices
+
+* View unsold items
+
+* Confirm delete
 
 
 .. image:: auction.png
@@ -67,13 +72,6 @@ The last thing you should need to do is make sure your database is ready. The fo
 Don't forget to sync your database using ./manage.py syncdb before running your first migrations!
 
 Now you can run the Django server and visit localhost:8000 to see the app in action!
-
-
-
-Secret Key
----------------
-https://docs.djangoproject.com/en/dev/howto/deployment/checklist/#secret-key
-make sure we do this before deploying this for production
 
 
 

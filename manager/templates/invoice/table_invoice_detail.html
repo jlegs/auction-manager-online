@@ -28,9 +28,9 @@ $('#print').click(function () {
 
     {% for invoice in invoices %}
 
-    {% include 'partials/invoice_display.html' with invoice=invoice %}
-    <div class="page-break"></div>
-{% endfor %}
+        {% include 'partials/invoice_display.html' with invoice=invoice %}
+        <div class="page-break"></div>
+    {% endfor %}
 
 
 

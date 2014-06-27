@@ -18,9 +18,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = os.environ.get('TEMPLATE_DEBUG', False)
 
 
 # SECURITY WARNING: keep the secret key used in production secret!

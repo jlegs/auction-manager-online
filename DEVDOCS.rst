@@ -81,9 +81,28 @@ printed to the console, it's working. If it's not, something's not right.
 
 (wildlife)wildlife@wcv-auction:~/website/auction-manager-online$ echo_supervisord_conf > supervisord.conf
 
-Add the following entry to the supervisord.conf file
+Add the following entry to the supervisord.conf file (located in the project root dir OR /etc/supervisord.conf)
 
 [program:wildlife]
 command = /home/wildlife/.virtualenvs/wildlife/bin/gunicorn auctionmanageronline.wsgi:application
 user = wildlife
+
+
+run supervisord, which should give you access to the supervisorctl command
+add the wildlife host to your .ssh/config file with forward agent set to yes. if not sure how to do this, GIYF
+
+
+
+To run this locally, you'll need to set an environment variable "DEBUG" (and "TEMPLATE_DEBUG") to TRUE. In Linux, you can do this
+by typing in your terminal window "export DEBUG=True && export TEMPLATE_DEBUG=True"
+
+To make those changes permanent, open your ~/.bashrc file and add
+"""
+export DEBUG=True
+export TEMPLATE_DEBUG=True
+"""
+to the file. close it, and run "source ~/.bashrc"
+
+That will reload your bash profile and you should be able to run django locally with no configuration changes
+
 

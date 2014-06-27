@@ -33,7 +33,7 @@ else:
 
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-54-82-112-202.compute-1.amazonaws.com']
 
 
 # Application definition

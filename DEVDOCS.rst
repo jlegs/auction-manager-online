@@ -105,4 +105,6 @@ to the file. close it, and run "source ~/.bashrc"
 
 That will reload your bash profile and you should be able to run django locally with no configuration changes
 
+I might change the environment variable to follow something along what this guy suggests:
+http://bruno.im/2013/may/18/django-stop-writing-settings-files/
 

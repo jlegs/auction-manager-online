@@ -46,7 +46,7 @@
         </td>
         <td>
             {% for item in invoice.items.all %}
-                <a href="{% url 'item_info' item.id %}">{{ item.item_number }}</a><br/>
+                <a href="{% url 'item_detail' item.id %}">{{ item.item_number }}</a><br/>
                 ({{ item.description }})<br/>
             {% endfor %}
         </td>

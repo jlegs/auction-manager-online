@@ -35,7 +35,7 @@
     {% for item in auction_items %}
 
     <tr>
-        <td><a href="{% url 'item_info' item.id %}">{{ item.item_number }}</a></td>
+        <td><a href="{% url 'item_detail' item.id %}">{{ item.item_number }}</a></td>
         <td>{% if item.description %}{{ item.description }}{% else %}No Description{% endif %}</td>
         <td>{{ item.winning_bid_number }}</td>
         <td>{% if item.invoice %}<a href="{% url 'invoice_details' item.invoice.id %}">{{ item.invoice }}</a>{% else %}{{ item.invoice }}{% endif %}</td>

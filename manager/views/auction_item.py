@@ -86,7 +86,7 @@ def update(request, id):
 
 
 @login_required
-def info(request, id):
+def detail(request, id):
     ''' Get item's info
     '''
     item = AuctionItem.objects.get(id=id)

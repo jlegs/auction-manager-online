@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url('^past-attendees$', 'manager.views.attendee.past_attendees', name='past_attendees'),
 
     url('^item/add/$', 'manager.views.auction_item.create', name='add_item'),
-    url('^item/(\d+)$', 'manager.views.auction_item.info', name='item_info'),
+    url('^item/(\d+)$', 'manager.views.auction_item.detail', name='item_detail'),
     url('^item/update/(\d+)$', 'manager.views.auction_item.update', name='update_item'),
     url('^item/all$', 'manager.views.auction_item.list', name='item_list'),
     url('^item/delete/(\d+)$', 'manager.views.auction_item.delete', name='delete_item'),

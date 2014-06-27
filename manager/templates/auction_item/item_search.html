@@ -15,7 +15,7 @@
 {% endif %}
 
 {% if item %}
-    <a href="{% url 'item_info' item.id %}">{{ item.item_number }} - {{ item.description }}</a>
+    <a href="{% url 'item_detail' item.id %}">{{ item.item_number }} - {{ item.description }}</a>
 {% endif %}
 
 

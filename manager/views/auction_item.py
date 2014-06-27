@@ -50,21 +50,24 @@ def update(request, id):
                 except ObjectDoesNotExist:
                     exists = None
                 if exists:
-                    messages.add_message(request, messages.WARNING, 'Another item already has the number %i' % form.cleaned_data['item_number'])
+                    messages.add_message(request, messages.WARNING, 'Another item already has the number %i.' % form.cleaned_data['item_number'])
                 else:
                     item.item_number = form.cleaned_data['item_number']
                     item.save()
-                    messages.add_message(request, messages.SUCCESS, 'Item Number successfully updated')
+                    messages.add_message(request, messages.SUCCESS, 'Item Number successfully updated.')
             elif form.cleaned_data['winning_bid_number'] != item.winning_bid_number:
                 try:
                     attendee = Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number'])
                 except ObjectDoesNotExist:
-                    messages.add_message(request, messages.WARNING, 'No attendee found with that bid number')
+                    messages.add_message(request, messages.WARNING, 'No attendee found with that bid number.')
                     return redirect('item_list')
                 invoice, created = Invoice.objects.get_or_create(attendee=attendee)
                 item.winning_bid_number = form.cleaned_data['winning_bid_number']
                 invoice.items.add(item)
-                messages.add_message(request, messages.SUCCESS, 'Winning bidder set for item %s' % item.description)
+                messages.add_message(request, messages.SUCCESS, 'Winning bidder set for item %s.' % item.description)
+                if form.cleaned_data['selling_price'] != item.selling_price:
+                    item.selling_price = form.cleaned_data['selling_price']
+                    messages.add_message(request, messages.SUCCESS, 'Selling price set.')
                 item.save()
             else:
                 form.save()

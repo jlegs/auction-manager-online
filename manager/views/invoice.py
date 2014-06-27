@@ -73,7 +73,7 @@ def update(request, id):
 
 
 @login_required
-def info(request, id):
+def detail(request, id):
     '''
     gets an invoices details
     '''

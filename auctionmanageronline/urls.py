@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url('^past-items$', 'manager.views.auction_item.past_items', name='past_items'),
 
     url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
-    url('^invoice/(\d+)$', 'manager.views.invoice.info', name='invoice_info'),
+    url('^invoice/(\d+)$', 'manager.views.invoice.detail', name='invoice_details'),
     url('^invoice/bidder/(\d+)$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
     url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),

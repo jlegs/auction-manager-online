@@ -16,14 +16,14 @@
 {% if invoices %}
     {% for invoice in invoices %}
         {% include 'partials/summary_invoice_display.html' with invoice=invoice %}<br/>
-        <a href="{% url 'invoice_info' invoice.id %}">Display Invoice Page</a>
+        <a href="{% url 'invoice_details' invoice.id %}">Display Invoice Page</a>
     {% endfor %}
 {% endif %}
 
 {% if invoice %}
 
         {% include 'partials/summary_invoice_display.html' with invoice=invoice %}<br/>
-        <a href="{% url 'invoice_info' invoice.id %}">Display Invoice Page</a>
+        <a href="{% url 'invoice_details' invoice.id %}">Display Invoice Page</a>
 
 {% endif %}
 

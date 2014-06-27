@@ -39,7 +39,7 @@
         </td>
         <td>
             {% for invoice in merged_invoice.invoices.all %}
-                <a href="{% url 'invoice_info' invoice.id %}">{{ invoice }}</a><br/>
+                <a href="{% url 'invoice_details' invoice.id %}">{{ invoice }}</a><br/>
             {% endfor %}
         </td>
         <td>

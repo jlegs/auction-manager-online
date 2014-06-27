@@ -42,7 +42,7 @@
             {% endif %}
         </td>
         <td>
-            <a href="{% url 'invoice_info' invoice.id %}">{{ invoice.total_amount }}</a>
+            <a href="{% url 'invoice_details' invoice.id %}">{{ invoice.total_amount }}</a>
         </td>
         <td>
             {% for item in invoice.items.all %}

@@ -277,7 +277,7 @@ def past_invoices(request):
 
 
 @login_required
-def bidder_invoice(request):
+def bidder_invoice_search(request):
     '''
     search for invoice by bidder name or number
     '''

@@ -28,10 +28,11 @@ urlpatterns = patterns('',
 
     url('^invoice/add/$', 'manager.views.invoice.create', name='add_invoice'),
     url('^invoice/(\d+)$', 'manager.views.invoice.detail', name='invoice_details'),
-    url('^invoice/bidder/(\d+)$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
+    url('^invoice/bidder$', 'manager.views.invoice.bidder_invoice_search', name='bidder_invoice'),
     url('^invoice/update/(\d+)$', 'manager.views.invoice.update', name='update_invoice'),
     url('^invoice/all$', 'manager.views.invoice.list', name='invoice_list'),
     url('^invoice/delete/(\d+)$', 'manager.views.invoice.delete', name='delete_invoice'),
+    url('^invoice/unpaid/$', 'manager.views.invoice.unpaid_invoices', name='unpaid_invoices'),
 
     url('^invoice/merge/$', 'manager.views.invoice.merge_invoices', name='merge_invoices'),
     url('^merged-invoice/(\d+)$', 'manager.views.invoice.merged_invoice', name='merged_invoice_info'),
@@ -45,8 +46,6 @@ urlpatterns = patterns('',
     url('^attendee/table/detail$', 'manager.views.attendee.table_attendee_detail', name='table_attendee_detail'),
     url('^invoice/table/list/all$', 'manager.views.invoice.table_list', name='table_invoices'),
     url('^invoice/table/detail/$', 'manager.views.invoice.table_invoice_detail', name='table_invoice_detail'),
-    url('^invoice/bidder/$', 'manager.views.invoice.bidder_invoice', name='bidder_invoice'),
-    url('^invoice/unpaid/$', 'manager.views.invoice.unpaid_invoices', name='unpaid_invoices'),
 
 
     url(r'^select2/', include('django_select2.urls')),

@@ -68,10 +68,9 @@ WSGI_APPLICATION = 'auctionmanageronline.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-    with open('/home/wildlife/db_pass.txt') as f:
-        SECRET_KEY = f.read().strip()
+with open('/home/wildlife/db_pass.txt') as f:
+    DB_PASS = f.read().strip()
 
-DB_PASS = os.environ.get('DB_PASS', 'dook')
 
 DATABASES = {
     'default': {

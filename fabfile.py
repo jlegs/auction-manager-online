@@ -49,6 +49,8 @@ def full_deploy():
 
     run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && pip install -r requirements.txt')
 
+    run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && ./manage.py migrate')
+
     run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && supervisorctl restart wildlife')
 
 

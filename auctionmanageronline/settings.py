@@ -31,7 +31,6 @@ if not DEBUG:
 else:
     SECRET_KEY = 'j4io2joidj90*)*#*#)()uf23j90)*&3}}{|%($^oijun'
 
-CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['ec2-54-82-112-202.compute-1.amazonaws.com']
 

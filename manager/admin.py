@@ -5,7 +5,7 @@ from manager.models.invoice import Invoice
 
 # Register your models here.
 
-admin.register(Attendee)
-admin.register(AuctionItem)
-admin.register(Invoice)
+admin.site.register(Attendee)
+admin.site.register(AuctionItem)
+admin.site.register(Invoice)
 

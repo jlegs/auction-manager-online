@@ -51,3 +51,14 @@ def full_deploy():
 
     run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && supervisorctl restart wildlife')
 
+
+def nginx(arg):
+    '''
+    Runs an nginx command
+    '''
+    if arg in ['start', 'stop', 'restart']:
+        run('sudo service nginx %s' % arg)
+    else:
+        return 'invalid argument'
+
+

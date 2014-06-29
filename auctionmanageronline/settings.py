@@ -31,7 +31,7 @@ if not DEBUG:
 else:
     SECRET_KEY = 'j4io2joidj90*)*#*#)()uf23j90)*&3}}{|%($^oijun'
 
-
+CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['ec2-54-82-112-202.compute-1.amazonaws.com']
 
@@ -68,13 +68,17 @@ WSGI_APPLICATION = 'auctionmanageronline.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+    with open('/home/wildlife/db_pass.txt') as f:
+        SECRET_KEY = f.read().strip()
+
+DB_PASS = os.environ.get('DB_PASS', 'dook')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'auctionmanager',
         'USER': 'wildlife',
-        'PASSWORD': 'wildlife',
+        'PASSWORD': DB_PASS,
         'HOST': 'localhost',
         }
 }

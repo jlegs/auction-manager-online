@@ -1,4 +1,4 @@
-from fabric.api import local, run, env
+from fabric.api import local, run, env, abort
 
 
 env.hosts = ['ec2-54-82-112-202.compute-1.amazonaws.com']
@@ -24,7 +24,10 @@ def gunicorn(arg):
     gunicorn command. inserts any arguments you send with it to the supervisorctl command. run this after ""fab deploy_code""
     e.g.: fab gunicorn:restart == supervisorctl restart wildlife
     '''
-    run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && supervisorctl %s wildlife' % arg)
+    if arg in ['start', 'stop', 'restart', 'reload', 'reread']:
+        run('cd website/auction-manager-online && source ../../.virtualenvs/wildlife/bin/activate && supervisorctl %s wildlife' % arg)
+    else:
+        abort('Not a valid gunicorn command.')
 
 
 def deploy_code():
@@ -58,9 +61,9 @@ def nginx(arg):
     '''
     Runs an nginx command
     '''
-    if arg in ['start', 'stop', 'restart']:
+    if arg in ['start', 'stop', 'restart', 'reload', 'reread']:
         run('sudo service nginx %s' % arg)
     else:
-        return 'invalid argument'
+        abort('Not a valid nginx command.')
 
 

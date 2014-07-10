@@ -4,6 +4,13 @@
 }
 
 
+.basepage-logo {
+    float: left;
+    padding-left: 10%;
+    padding-top: 3%;
+    position: absolute;
+}
+
 .centered_list {
 	margin: 0 auto;
 	padding: 2px;

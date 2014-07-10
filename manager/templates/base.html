@@ -11,6 +11,7 @@
     <div class="noPrint">
     <div id="nav">
         {% block header_nav %}
+            <img src="{{ STATIC_URL }}wcvlogo.png" class="basepage-logo"/>
         <center>
             {% if user.is_authenticated %}
             <a href="{% url 'home' %}">Home</a><br/>

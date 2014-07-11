@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content%}
 
-{% if form.errors %}
-        Looks like something's wrong with your username/password. Please try again.
-{% endif %}
+
 
 <br/><br/><br/><br/><br/>
 Please enter your username and password to access the Wildlife Center of Virginia's Auction Management system.<br/><br/>
-
+{% if form.errors %}
+        Looks like something's wrong with your username/password. Please try again.
+{% endif %}
         <form id="login_form" method="post" action="">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />

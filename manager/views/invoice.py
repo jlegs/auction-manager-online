@@ -54,6 +54,8 @@ def update(request, id):
                 messages.add_message(request,
                                      messages.SUCCESS, 'Item removed from invoice.')
             form.save()
+            invoice.invoice_date = datetime.datetime.now()
+            invoice.save()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
             return redirect('invoice_list')
         else:

@@ -1,8 +1,7 @@
 from fabric.api import local, run, env, abort
-from settings import ALLOWED_HOSTS
 
 
-env.hosts = ALLOWED_HOSTS
+env.hosts = ['ec2-54-163-252-105.compute-1.amazonaws.com']
 env.user = 'wildlife'
 env.forward_agent = True
 
@@ -11,7 +10,7 @@ def test():
 
 
 def remote_in():
-    local('ssh wildlife@%s' % ALLOWED_HOSTS[0])
+    local('ssh wildlife@ec2-54-163-252-105.compute-1.amazonaws.com')
 
 def django_shell():
     '''

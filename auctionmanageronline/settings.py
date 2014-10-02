@@ -32,7 +32,7 @@ else:
     SECRET_KEY = 'j4io2joidj90*)*#*#)()uf23j90)*&3}}{|%($^oijun'
 
 
-ALLOWED_HOSTS = ['ec2-54-82-112-202.compute-1.amazonaws.com']
+ALLOWED_HOSTS = ['ec2-54-163-252-105.compute-1.amazonaws.com']
 
 
 # Application definition

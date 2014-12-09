@@ -61,7 +61,7 @@ def update(request, id):
                 except ObjectDoesNotExist:
                     messages.add_message(request, messages.WARNING, 'No attendee found with that bid number.')
                     return redirect('item_list')
-                invoice, created = Invoice.objects.get_or_create(attendee=attendee)
+                invoice, created = Invoice.objects.get(attendee=attendee)
                 item.winning_bid_number = form.cleaned_data['winning_bid_number']
                 invoice.items.add(item)
                 messages.add_message(request, messages.SUCCESS, 'Winning bidder set for item %s.' % item.description)

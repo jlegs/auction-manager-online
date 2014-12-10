@@ -55,7 +55,7 @@ def update(request, id):
                     item.item_number = form.cleaned_data['item_number']
                     item.save()
                     messages.add_message(request, messages.SUCCESS, 'Item Number successfully updated.')
-            elif form.cleaned_data['winning_bid_number'] != item.winning_bid_number:
+            elif form.cleaned_data['winning_bid_number']:
                 try:
                     attendee = Attendee.objects.get(bid_number=form.cleaned_data['winning_bid_number'])
                 except ObjectDoesNotExist:

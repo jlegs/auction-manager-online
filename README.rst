@@ -41,7 +41,7 @@ Current features:
 
 Setup
 ---------------
-To run this locally, you'll need Django 1.6 and a mysql server running. You'll need several Python dependencies. Pip is the best tool to do this. You can get that by installing it via the commandline:
+To run this locally, you'll need Django 1.6 and a mysql server running. Django will be installed as a dependency when you install everything from the requirements file. Other than that, you'll need several Python dependencies. Pip is the best tool to do this. You can get that by installing it via the commandline:
 
 	sudo apt-get install python-pip
 

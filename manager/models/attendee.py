@@ -1,6 +1,10 @@
 from django.db import models
 import datetime
 
+from manager.models.invoice import Invoice
+
+
+
 class Attendee(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -18,4 +22,17 @@ class Attendee(models.Model):
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
+
+
+    def create_invoice(self):
+        try:
+            invoice = Invoice.objects.get(attendee=self)
+            return invoice
+        except Invoice.DoesNotExist:
+            invoice = Invoice.objects.create(total_amount=0, attendee=self)
+            invoice.save()
+            return invoice
+
+
+
 

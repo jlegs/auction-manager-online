@@ -35,26 +35,17 @@ def create(request):
 
 @login_required
 def update(request, id):
-    ''' Updates an invoice record
-    '''
+    '''Updates an invoice record'''
+    
     invoice = get_object_or_404(Invoice, id=id)
 
     if request.POST:
         form = InvoiceForm(request.POST, instance=invoice)
         if form.is_valid():
-            if form.cleaned_data['items']:
-                item = form.cleaned_data['items']
-                invoice.items.add(item)
-                messages.add_message(request,
-                                     messages.SUCCESS, 'Item added to invoice.')
-            elif form.cleaned_data['remove_items']:
-                item = form.cleaned_data['remove_items']
-                invoice.items.remove(item)
-                messages.add_message(request,
-                                     messages.SUCCESS, 'Item removed from invoice.')
-            form.save()
-            invoice.save()
-            messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
+            add_item = form.cleaned_data['items']
+            remove_item = form.cleaned_data['remove_items']
+            invoice.update_invoice(add_item=add_item, remove_item=remove_item)
+            messages.add_message(request, messages.SUCCESS, 'Invoice for {} updated.'.format(invoice.attendee.name))
             return redirect('invoice_list')
         else:
             messages.add_message(request, messages.WARNING,
@@ -74,9 +65,8 @@ def update(request, id):
 
 @login_required
 def detail(request, id):
-    '''
-    gets an invoices details
-    '''
+    '''gets an invoices details'''
+
     invoice = get_object_or_404(Invoice, id=id)
     ## Call save() here because it will set the invoice total to the correct amount if it's wrong, which sometimes
     ## happens when disassociating an item with an invoice, or associating an item with a different invoice

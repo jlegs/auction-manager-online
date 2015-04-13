@@ -34,6 +34,7 @@ def create(request):
                    }
         return render(request, 'auction_item/add.html', context)
 
+
 @login_required
 def update(request, id):
     ''' Updates an auction item record
@@ -47,11 +48,8 @@ def update(request, id):
             if form.cleaned_data['item_number'] != item.item_number:
                 try:
                     exists = AuctionItem.objects.get(item_number=form.cleaned_data['item_number'], year=lambda: datetime.datetime.now().year)
-                except ObjectDoesNotExist:
-                    exists = None
-                if exists:
                     messages.add_message(request, messages.WARNING, 'Another item already has the number %i.' % form.cleaned_data['item_number'])
-                else:
+                except AuctionItem.DoesNotExist:
                     item.item_number = form.cleaned_data['item_number']
                     item.save()
                     messages.add_message(request, messages.SUCCESS, 'Item Number successfully updated.')
@@ -106,7 +104,7 @@ def item_search(request):
                 item = AuctionItem.objects.get(item_number=form.cleaned_data['item_number'])
                 context['item'] = item
                 context['form'] = form
-            except Exception as e:
+            except AuctionItem.DoesNotExist as e:
                 context['error'] = e
         else:
             return render(request, 'quction_item/item_search.html', context)
@@ -127,6 +125,7 @@ def unsold_item_list(request):
                }
     return render(request, 'auction_item/item_list.html', context)
 
+
 @login_required
 def past_items(request):
     ''' Get a list of all auction items for the a past year's auction.
@@ -146,9 +145,6 @@ def past_items(request):
         form = YearForm()
         context['form'] = form
     return render(request, 'auction_item/item_list.html', context)
-
-
-
 
 
 @login_required

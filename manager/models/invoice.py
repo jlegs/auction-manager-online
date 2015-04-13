@@ -29,6 +29,17 @@ class Invoice(models.Model):
     def __unicode__(self):
         return "Invoice for: %s" % self.attendee
 
+
+    def update_invoice(self, add_item=None, remove_item=None):
+        '''Adds or removes the item passed into this method as appropriate.'''
+        if add_item:
+            self.items.add(add_item)
+        if remove_item:
+            self.items.remove(remove_item)
+        self.save()
+        return self
+
+
     def add_item_value(self, item):
         '''
         legacy code
@@ -68,6 +79,10 @@ class Invoice(models.Model):
             else:
                 pass
         return total
+
+    def save(self, *args, **kwargs):
+        self.invoice_date = datetime.datetime.now()
+        super(Invoice, self).save(*args, **kwargs)
 
 
 

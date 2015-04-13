@@ -33,6 +33,8 @@ class Attendee(models.Model):
             invoice.save()
             return invoice
 
-
+    @property
+    def name(self):
+        return self.first_name + ' ' + self.last_name
 
 

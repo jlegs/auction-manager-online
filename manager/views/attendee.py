@@ -20,15 +20,13 @@ def create(request):
         form = AttendeeForm(request.POST)
         if form.is_valid():
             attendee = form.save()
-            invoice = Invoice(total_amount=0)
-            invoice.attendee = attendee
-            invoice.save()
+            attendee.create_invoice()
             messages.add_message(request, messages.SUCCESS, 'New Attendee Added. Invoice added and associated with attendee.')
             return redirect('attendee_list')
         else:
             if len(Attendee.objects.filter(year=lambda: datetime.datetime.now().year)) > 0:
-                latest = Attendee.objects.latest('bid_number')
-                bid_number = latest.bid_number + 1
+                latest_attendee = Attendee.objects.latest('bid_number')
+                bid_number = latest_attendee.bid_number + 1
             context = {'form': form,
                        'bid_number': bid_number,
                        'table_assignment': form.cleaned_data['table_assignment']}
@@ -38,8 +36,8 @@ def create(request):
         # Check to see if there are attendees for this year's auction. If there are, set the default bid number
         # to one more than the highest bid number. If no attendees, set bid number to 1.
         if len(Attendee.objects.filter(year=lambda: datetime.datetime.now().year)) > 0:
-            latest = Attendee.objects.latest('bid_number')
-            bid_number = latest.bid_number + 1
+            latest_attendee = Attendee.objects.latest('bid_number')
+            bid_number = latest_attendee.bid_number + 1
         else:
             bid_number = 1
         context = {'form': form,
@@ -53,6 +51,7 @@ def update(request, id):
     ''' Updates an attendee record
     '''
     attendee = get_object_or_404(Attendee, id=id)
+    # Get current list of bid numbers so we don't accidentally assign one that already exists.
     bid_list = [a.bid_number for a in Attendee.objects.filter(year=lambda: datetime.datetime.now().year).exclude(
         id=attendee.id)]
     if request.POST:

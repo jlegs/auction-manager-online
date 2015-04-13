@@ -43,18 +43,16 @@ def update(request, id):
         form = InvoiceForm(request.POST, instance=invoice)
         if form.is_valid():
             if form.cleaned_data['items']:
-                item = AuctionItem.objects.get(id=form.cleaned_data['items'].id)
+                item = form.cleaned_data['items']
                 invoice.items.add(item)
                 messages.add_message(request,
                                      messages.SUCCESS, 'Item added to invoice.')
             elif form.cleaned_data['remove_items']:
-                item = AuctionItem.objects.get(
-                    id=form.cleaned_data['remove_items'].id)
+                item = form.cleaned_data['remove_items']
                 invoice.items.remove(item)
                 messages.add_message(request,
                                      messages.SUCCESS, 'Item removed from invoice.')
             form.save()
-            invoice.invoice_date = datetime.datetime.now()
             invoice.save()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
             return redirect('invoice_list')

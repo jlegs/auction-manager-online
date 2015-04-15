@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def create(request):
-    ''' creates a new invoice for the current year's auction.
+    '''
+    creates a new invoice for the current year's auction.
     '''
     if request.POST:
         form = InvoiceForm(request.POST)
@@ -35,8 +36,9 @@ def create(request):
 
 @login_required
 def update(request, id):
-    '''Updates an invoice record'''
-    
+    '''
+    Updates an invoice record
+    '''
     invoice = get_object_or_404(Invoice, id=id)
 
     if request.POST:
@@ -65,8 +67,9 @@ def update(request, id):
 
 @login_required
 def detail(request, id):
-    '''gets an invoices details'''
-
+    '''
+    gets an invoices details
+    '''
     invoice = get_object_or_404(Invoice, id=id)
     ## Call save() here because it will set the invoice total to the correct amount if it's wrong, which sometimes
     ## happens when disassociating an item with an invoice, or associating an item with a different invoice

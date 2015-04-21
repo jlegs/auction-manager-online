@@ -108,7 +108,7 @@ def delete(request, id):
         return redirect('invoice_list')
     else:
         invoice.delete()
-        logger.info('Deleted invoice')
+        logger.info('Deleting invoice')
     return redirect('invoice_list')
 
 
@@ -183,7 +183,7 @@ def merge_invoices(request):
                 context = {'form': form,
                            'new_invoice': new_invoice,
                 }
-                logger.info('Merging invoices {}, {}'.format(invoices[0], invoices[1]))
+                logger.info('Merging invoices {}'.format(new_invoice.invoices.all()))
             else:
                 messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has already been merged with another, or you have not selected enough invoices to merge.')
                 context = {'form': form,
@@ -191,6 +191,7 @@ def merge_invoices(request):
                 logger.error('Merging invoices failed because at least one invoice already belongs to a merged invoice record.')
             return render(request, 'invoice/merge.html', context)
         else:
+            logger.error('Invalid merge-invoice form. Redirecting.')
             return redirect('merge_invoices')
     else:
         form = TableMergeForm()
@@ -208,6 +209,7 @@ def delete_merged_invoice(request, id):
         for invoice in merged_invoice.invoices.all():
             merged_invoice.invoices.remove(invoice)
     merged_invoice.delete()
+    logging.info('Deleting merged invoice.')
     return redirect('merged_invoice_list')
 
 
@@ -234,9 +236,11 @@ def update_merged_invoice(request, id):
             form.save()
             merged_invoice.update_invoices()
             messages.add_message(request, messages.SUCCESS, 'Invoice updated.')
+            logger.info('Updating merged invoice and associated invoices.')
             return redirect('merged_invoice_list')
         else:
             messages.add_message(request, messages.WARNING, 'Something went wrong, likely some kind of form validation.')
+            logger.error('Something went wrong while updating merged invoice.')
             return render(request, 'invoice/merged_invoice_update.html', {'form': form})
     else:
         form = MergedInvoiceEditForm(instance=merged_invoice)

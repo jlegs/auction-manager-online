@@ -7,6 +7,9 @@ from manager.forms import InvoiceForm, TableSelectForm, BidderInvoiceForm, Table
 import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import logging
+
+logger = logging.getLogger('auction')
 
 
 @login_required
@@ -48,10 +51,12 @@ def update(request, id):
             remove_item = form.cleaned_data['remove_items']
             invoice.update_invoice(add_item=add_item, remove_item=remove_item)
             messages.add_message(request, messages.SUCCESS, 'Invoice for {} updated.'.format(invoice.attendee.name))
+            logger.info('Invoice updated')
             return redirect('invoice_list')
         else:
             messages.add_message(request, messages.WARNING,
                                  'Something went wrong, likely some kind of form validation.')
+            logger.error('Something went wrong updating the invoice.')
             return render(request, 'invoice/update.html', {'form': form})
     else:
         form = InvoiceForm(instance=invoice)
@@ -74,6 +79,7 @@ def detail(request, id):
     ## Call save() here because it will set the invoice total to the correct amount if it's wrong, which sometimes
     ## happens when disassociating an item with an invoice, or associating an item with a different invoice
     invoice.save()
+    logger.info('Displaying invoice details')
     return render(request, 'invoice/info.html', {'invoice': invoice})
 
 
@@ -82,6 +88,7 @@ def list(request):
     ''' Get a list of all auction items for the current year's auction.
     '''
     invoices = Invoice.objects.filter(year=lambda: datetime.datetime.now().year)
+    logger.info('Displaying list of invoices')
     context = {'invoices': invoices,
                }
     return render(request, 'invoice/invoice_list.html', context)
@@ -97,9 +104,11 @@ def delete(request, id):
     if invoice.items.all():
         messages.add_message(request, messages.WARNING, 'Unable to delete invoices that have items associated with '
                                                         'them.')
+        logger.error('Error deleting invoice because items still associated with invoice.')
         return redirect('invoice_list')
     else:
         invoice.delete()
+        logger.info('Deleted invoice')
     return redirect('invoice_list')
 
 
@@ -110,6 +119,7 @@ def table_list(request):
     '''
     invoices = Invoice.objects.filter(
         attendee__isnull=False).order_by('attendee__table_assignment')
+    logger.info('Displaying list of invoices by table')
     context = {'invoices': invoices}
     return render(request, 'invoice/invoice_list.html', context)
 
@@ -141,8 +151,10 @@ def table_invoice_detail(request):
                        'form': form,
                        'table': form.cleaned_data['table_assignment'],
                        }
+            logger.info('Displaying invoices by table.')
             if not invoices:
                 messages.add_message(request, messages.INFO, 'No bidders at this table have invoices that need to be billed.')
+                logger.error('No bidders at table have invoices that need to be billed.')
         else:
             return redirect('invoice_list')
     else:
@@ -171,10 +183,12 @@ def merge_invoices(request):
                 context = {'form': form,
                            'new_invoice': new_invoice,
                 }
+                logger.info('Merging invoices {}, {}'.format(invoices[0], invoices[1]))
             else:
-                messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has laready been merged with another, or you have not selected enough invoices to merge.')
+                messages.add_message(request, messages.WARNING, 'One of the invoices you tried to merge has already been merged with another, or you have not selected enough invoices to merge.')
                 context = {'form': form,
                            }
+                logger.error('Merging invoices failed because at least one invoice already belongs to a merged invoice record.')
             return render(request, 'invoice/merge.html', context)
         else:
             return redirect('merge_invoices')
